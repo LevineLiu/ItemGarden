@@ -1,10 +1,11 @@
-package com.llw.itemgarden.com.llw.itemgarden.base;
+package com.llw.itemgarden.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Button;
 
 import com.llw.itemgarden.R;
 
@@ -15,7 +16,6 @@ public class MainActivity extends FragmentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment(null,true);
     }
 
     /**

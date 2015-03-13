@@ -3,12 +3,13 @@ package com.llw.itemgarden;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
-/**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
- */
+import com.llw.itemgarden.utils.CrashHandler;
+
+
 public class ItemGardenApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler.getInstance().initCrashHandler(getApplicationContext());
     }
 }
