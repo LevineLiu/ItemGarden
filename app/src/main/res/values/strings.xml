@@ -9,5 +9,8 @@
     <string name="internet_exception">网络异常,请稍后重试</string>
 
     <string name="pull_to_refresh">Pull to refresh</string>
+    <string name="release_to_refresh">Release to refresh</string>
+    <string name="refreshing">Refreshing...</string>
+    <string name="load_more">Load more</string>
     <string name="time">Time：</string>
 </resources>

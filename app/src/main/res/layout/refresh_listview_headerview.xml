@@ -4,32 +4,36 @@
     android:layout_height="wrap_content"
     android:gravity="bottom">
     <RelativeLayout
+        android:id="@+id/headerView_content"
         android:layout_width="fill_parent"
         android:layout_height="60dp">
-    <LinearLayout
-        android:id="@+id/content_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pull_to_refresh"/>
         <LinearLayout
+            android:id="@+id/content_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center">
             <TextView
+                android:id="@+id/headerView_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/time"/>
-            <TextView
-                android:id="@+id/headerView_time"
+                android:text="@string/pull_to_refresh"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:text="@string/time"/>
+                <TextView
+                    android:id="@+id/headerView_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -40,7 +44,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/content_layout"
             android:layout_marginRight="30dp"
-            android:background="@drawable/refresh_progress"
+            android:indeterminateDrawable="@drawable/refresh_progress_animation"
+            android:indeterminateBehavior="repeat"
             android:visibility="gone"/>
 
         <ImageView
