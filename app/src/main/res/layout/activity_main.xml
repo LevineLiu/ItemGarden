@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         android:weightSum="5">
         <RadioButton
+            android:id="@+id/tab_home_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             style="@style/tab_radioButton_style"
@@ -20,6 +21,7 @@
             android:background="@android:color/white"
             android:text="首页"/>
         <RadioButton
+            android:id="@+id/tab_find_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             style="@style/tab_radioButton_style"
@@ -27,6 +29,7 @@
             android:background="@android:color/white"
             android:text="淘淘"/>
         <RadioButton
+            android:id="@+id/tab_post_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             style="@style/tab_radioButton_style"
@@ -34,6 +37,7 @@
             android:background="#ffda44"
             android:paddingTop="10dp"/>
         <RadioButton
+            android:id="@+id/tab_message_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             style="@style/tab_radioButton_style"
@@ -41,6 +45,7 @@
             android:background="@android:color/white"
             android:text="消息"/>.
         <RadioButton
+            android:id="@+id/tab_person_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             style="@style/tab_radioButton_style"

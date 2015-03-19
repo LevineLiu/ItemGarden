@@ -23,9 +23,22 @@ public class HomeFragment extends Fragment{
     }
 
     private void initView(View view){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, new String[]{"11111","55555"});
+        String test[] = {"111","222","333","444","555","666","777","888","999","10","11","12","13","14","15"};
+        ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, test);
         PullToRefreshListView listView = (PullToRefreshListView)view.findViewById(R.id.refresh_listview);
         listView.setAdapter(adapter);
+        listView.setOnLoadMoreListener(new PullToRefreshListView.onLoadMoreListener() {
+            @Override
+            public void onLoad() {
+
+            }
+        });
+        listView.setOnRefreshListener(new PullToRefreshListView.onRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+        });
 
     }
 }

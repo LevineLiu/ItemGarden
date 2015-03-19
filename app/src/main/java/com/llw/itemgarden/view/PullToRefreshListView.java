@@ -3,7 +3,9 @@ package com.llw.itemgarden.view;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
@@ -25,11 +27,15 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 
     private PullToRefreshHeaderView mHeaderView;
     private RelativeLayout mHeaderViewContent;
+    private View mFooterView;
+    private RelativeLayout mFooterLayout;
     private TextView mTimeTextView;
     private Scroller mScroller;
-    private int mContentHeight, mScrollBackType;
-    private boolean isRefreshing = false;
+    private int mContentHeight, mScrollBackType, mPageSize;
+    private boolean isRefreshing = false, isLoading = false;
     private float mDownY = -1;//the Y coordinate of finger
+    private onLoadMoreListener mLoadMoreListener;
+    private onRefreshListener mRefreshListener;
 
     public PullToRefreshListView(Context context) {
         super(context);
@@ -65,12 +71,36 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
                     mHeaderView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
+        mFooterView = LayoutInflater.from(context).inflate(R.layout.load_more_footer, null);
+        mFooterLayout = (RelativeLayout) mFooterView.findViewById(R.id.load_more_layout);
+        mFooterLayout.setVisibility(View.GONE);
+        addFooterView(mFooterView);
+
     }
 
-    private void stopRefresh(){
+    public void setOnRefreshListener(onRefreshListener onRefreshListener){
+        this.mRefreshListener = onRefreshListener;
+    }
+
+    public void setOnLoadMoreListener(onLoadMoreListener loadMoreListener){
+        this.mLoadMoreListener = loadMoreListener;
+    }
+    /**
+     * set the size of each page
+     */
+    public void setPageSize(int size){
+        mPageSize = size;
+    }
+    public void stopRefresh(){
         if(isRefreshing)
             isRefreshing = false;
         resetHeaderViewHeight();
+    }
+
+    public void stopLoadMore(){
+        isLoading = false;
+        mFooterLayout.setVisibility(View.GONE);
     }
 
     /**
@@ -145,6 +175,7 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
                     if(!isRefreshing && mHeaderView.getHeaderHeight() > mContentHeight){
                         mHeaderView.changState(PullToRefreshHeaderView.STATE_REFRESHING);
                         isRefreshing = true;
+                        mRefreshListener.onRefresh();
                     }
                     resetHeaderViewHeight();
                 }
@@ -155,11 +186,26 @@ public class PullToRefreshListView extends ListView implements AbsListView.OnScr
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if(scrollState == SCROLL_STATE_IDLE){
+            if(getLastVisiblePosition() == (mPageSize==0 ? 15 : mPageSize) + 1 && !isLoading){
+                mFooterLayout.setVisibility(View.VISIBLE);
+                isLoading = true;
+                mLoadMoreListener.onLoad();
+            }
+        }
 
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+    }
+
+    public interface onLoadMoreListener{
+        public void onLoad();
+    }
+
+    public interface onRefreshListener{
+        public void onRefresh();
     }
 }

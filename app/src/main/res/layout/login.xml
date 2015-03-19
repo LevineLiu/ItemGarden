@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        layout="@layout/login_register_title_bar"/>
+
+    <LinearLayout
+        android:id="@+id/login_anim_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/mini_bg"
+            android:layout_margin="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:text="账户" />
+
+
+                <ImageView
+                    android:id="@+id/arrow_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/post_arrow_down_icon"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+                <ImageView
+                    android:id="@+id/account_delete_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/del_icon"
+                    android:layout_toLeftOf="@id/arrow_down"
+                    android:layout_marginRight="5dp"
+                    android:visibility="invisible"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:hint="请输入账号"
+                    android:layout_toLeftOf="@+id/account_delete_img"
+                    android:layout_marginRight="5dp"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:layout_marginLeft="70dp"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dbdbdb"
+                android:layout_marginLeft="1px"
+                android:layout_marginRight="1px"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="登陆密码"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/password_delete_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/del_icon"
+                    android:layout_alignParentRight="true"
+                    android:visibility="invisible"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:hint="请输入密码"
+                    android:layout_marginLeft="70dp"
+                    android:background="@null"
+                    android:singleLine="true"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_button_bg"
+            android:text="登陆"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/register_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="注册"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/forget_password_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text="找回密码"
+            android:layout_alignParentRight="true"
+            android:padding="10dp" />
+    </RelativeLayout>
+
+</LinearLayout>
