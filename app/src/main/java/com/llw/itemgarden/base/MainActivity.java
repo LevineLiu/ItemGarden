@@ -126,7 +126,6 @@ public class MainActivity extends FragmentActivity{
     public void hideFragment(Class<? extends Fragment> fragmentClass){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        String name = fragmentClass.getSimpleName();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentClass.getSimpleName());
         if(fragment == null){
             try {
