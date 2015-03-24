@@ -31,10 +31,9 @@ public class RegisterPhoneNumberFragment extends BaseFragment implements View.On
     }
 
     private void initView(View view){
-        ImageView backImageView = (ImageView) view.findViewById(R.id.title_bar_back_img);
-        backImageView.setOnClickListener(this);
         TextView title = (TextView) view.findViewById(R.id.login_register_title);
         title.setText("注册");
+        title.setOnClickListener(this);
 
         RelativeLayout regionLayout = (RelativeLayout) view.findViewById(R.id.register_region_layout);
         regionLayout.setOnClickListener(this);
@@ -59,7 +58,7 @@ public class RegisterPhoneNumberFragment extends BaseFragment implements View.On
                     ((FragmentContainerActivity)getActivity()).addFragment(fragment, true);
                 }
                 break;
-            case R.id.title_bar_back_img:
+            case R.id.login_register_title:
                 if(getActivity() != null)
                     getActivity().getSupportFragmentManager().popBackStack();
                 break;

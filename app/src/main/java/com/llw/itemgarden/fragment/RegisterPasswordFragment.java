@@ -25,7 +25,7 @@ import com.llw.itemgarden.volley.VolleyErrorHelper;
 /**
  * @author Created by liulewen on 2015/3/23.
  */
-public class RegisterPasswordFragment extends BaseFragment{
+public class RegisterPasswordFragment extends BaseFragment implements View.OnClickListener{
     private final static String TAG = RegisterPasswordFragment.class.getSimpleName();
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,6 +35,9 @@ public class RegisterPasswordFragment extends BaseFragment{
     }
 
     private void initView(View view){
+        TextView title = (TextView)view.findViewById(R.id.login_register_title);
+        title.setText("设置密码");
+        title.setOnClickListener(this);
         final EditText passwordEt = (EditText) view.findViewById(R.id.password_et);
         final EditText confirmPasswordEt = (EditText) view.findViewById(R.id.confirm_password_et);
         TextView registerTv = (TextView) view.findViewById(R.id.register_tv);
@@ -77,6 +80,16 @@ public class RegisterPasswordFragment extends BaseFragment{
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.login_register_title:
+                if(getActivity() != null)
+                    getActivity().getSupportFragmentManager().popBackStack();
+                break;
+        }
     }
 
     @Override

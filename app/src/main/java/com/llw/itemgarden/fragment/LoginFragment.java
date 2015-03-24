@@ -35,9 +35,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
         animation.setFillAfter(true);
         linearLayout.setAnimation(animation);
         TextView title  = (TextView) view.findViewById(R.id.login_register_title);
-        ImageView backImageView = (ImageView) view.findViewById(R.id.title_bar_back_img);
         title.setText("账号登陆");
-        backImageView.setOnClickListener(this);
+        title.setOnClickListener(this);
 
         registerTv = (TextView) view.findViewById(R.id.register_tv);
         forgetPasswordTv = (TextView) view.findViewById(R.id.forget_password_tv);
@@ -55,7 +54,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.forget_password_tv:
                 break;
-            case R.id.title_bar_back_img:
+            case R.id.login_register_title:
                 if(getActivity() != null)
                     getActivity().finish();
                 break;

@@ -37,10 +37,9 @@ public class RegisterIdentifyCodeFragment extends BaseFragment implements View.O
     }
 
     private void initView(View view){
-        ImageView backImageView = (ImageView) view.findViewById(R.id.title_bar_back_img);
-        backImageView.setOnClickListener(this);
         TextView title = (TextView) view.findViewById(R.id.login_register_title);
         title.setText("填写校验码");
+        title.setOnClickListener(this);
 
         codeEditText = (EditText) view.findViewById(R.id.identify_code_et);
         getCodeTextView = (TextView) view.findViewById(R.id.get_code_tv);
@@ -52,7 +51,7 @@ public class RegisterIdentifyCodeFragment extends BaseFragment implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.title_bar_back_img:
+            case R.id.login_register_title:
                 if(getActivity() != null)
                     getActivity().getSupportFragmentManager().popBackStack();
                 break;
