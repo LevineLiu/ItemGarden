@@ -24,7 +24,7 @@ public class MainActivity extends FragmentActivity{
     }
 
     private void initFragment(){
-        addFragment(LoginFragment.class, false);
+        //addFragment(LoginFragment.class, false);
         addFragment(HomeFragment.class, false);
     }
     private void initView(){
@@ -36,19 +36,20 @@ public class MainActivity extends FragmentActivity{
                 switch (checkedId){
                     case R.id.tab_home_button:
                         showFragment(HomeFragment.class);
-                        hideFragment(LoginFragment.class);
+                        //hideFragment(LoginFragment.class);
                         break;
                     case R.id.tab_find_button:
                         break;
                     case R.id.tab_post_button:
                         break;
                     case R.id.tab_message_button:
-                        showFragment(LoginFragment.class);
-                        hideFragment(HomeFragment.class);
+//                        showFragment(LoginFragment.class);
+//                        hideFragment(HomeFragment.class);
+                        FragmentContainerActivity.startActivity(MainActivity.this, LoginFragment.class, null, false);
                         break;
                     case R.id.tab_person_button:
-                        showFragment(LoginFragment.class);
-                        hideFragment(HomeFragment.class);
+//                        showFragment(LoginFragment.class);
+//                        hideFragment(HomeFragment.class);
                         break;
                 }
             }

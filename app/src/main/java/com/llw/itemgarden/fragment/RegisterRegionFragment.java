@@ -2,7 +2,6 @@ package com.llw.itemgarden.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.llw.itemgarden.R;
+import com.llw.itemgarden.base.BaseFragment;
 import com.llw.itemgarden.view.SideBar;
 
 /**
  * @author Created by liulewen on 2015/3/20.
  */
-public class RegisterRegionFragment extends Fragment{
+public class RegisterRegionFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.register_region_fragment, container, false);

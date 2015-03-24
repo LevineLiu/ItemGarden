@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
     <include
         layout="@layout/login_register_title_bar"/>
     <TextView
@@ -18,6 +19,7 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
         <EditText
+            android:id="@+id/identify_code_et"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@drawable/mini_input_bg_corner"
@@ -25,16 +27,20 @@
             android:hint="短信校验码"
             android:paddingLeft="5dp"
             android:layout_weight="1"/>
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/get_code_tv"
+            android:layout_width="80dp"
             android:layout_height="fill_parent"
             android:background="@drawable/mini_smsbtn_disable"
             android:text="重发校验码"
-            android:padding="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:textSize="13sp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:gravity="center"/>
         </LinearLayout>
-    <Button
+    <TextView
+        android:id="@+id/identify_code_next_button"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"

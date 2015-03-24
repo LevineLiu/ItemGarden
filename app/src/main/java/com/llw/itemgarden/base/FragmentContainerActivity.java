@@ -69,7 +69,7 @@ public class FragmentContainerActivity extends FragmentActivity{
     /**
      * add a Fragment
      */
-    private void addFragment(Class <? extends Fragment> fragmentClass, boolean isAddToBackStack){
+    public void addFragment(Class <? extends Fragment> fragmentClass, boolean isAddToBackStack){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Fragment fragment = null;
@@ -85,14 +85,21 @@ public class FragmentContainerActivity extends FragmentActivity{
         if(isAddToBackStack)
             transaction.addToBackStack(fragmentName);
         transaction.commitAllowingStateLoss();
-        //execute pending transactions immediately,or when executing other operations, it will new a instance again;
-        fragmentManager.executePendingTransactions();
+    }
+
+    public void addFragment(Fragment fragment, boolean isAddToBackStack){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(getFragmentContainerId(), fragment, null);
+        if(isAddToBackStack)
+            transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
     }
 
     /**
      * replace a Fragment
      */
-    private void replaceFragment(Fragment fragment, boolean isAddToBackStack){
+    public void replaceFragment(Fragment fragment, boolean isAddToBackStack){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(getFragmentContainerId(), fragment, null);

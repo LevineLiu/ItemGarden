@@ -101,7 +101,7 @@
 
         </LinearLayout>
 
-        <Button
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
