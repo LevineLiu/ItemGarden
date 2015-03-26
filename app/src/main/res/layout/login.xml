@@ -50,6 +50,7 @@
                     android:visibility="invisible"/>
 
                 <EditText
+                    android:id="@+id/login_account_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
@@ -90,18 +91,21 @@
                     android:visibility="invisible"/>
 
                 <EditText
+                    android:id="@+id/login_password_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
                     android:hint="请输入密码"
                     android:layout_marginLeft="70dp"
                     android:background="@null"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="textPassword"/>
             </RelativeLayout>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/login_tv"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"

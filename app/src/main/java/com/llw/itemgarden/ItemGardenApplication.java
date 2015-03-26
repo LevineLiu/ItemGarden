@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.llw.itemgarden.utils.CrashHandler;
+import com.llw.itemgarden.utils.UniversalImageLoaderUtil;
 
 
 public class ItemGardenApplication extends Application {
@@ -18,6 +19,7 @@ public class ItemGardenApplication extends Application {
         super.onCreate();
         mApplication = this;
         CrashHandler.getInstance().initCrashHandler(getApplicationContext());
+        UniversalImageLoaderUtil.initConfig(getApplicationContext());
     }
 
     public static synchronized  ItemGardenApplication getInstance(){

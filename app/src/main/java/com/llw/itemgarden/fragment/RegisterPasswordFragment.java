@@ -22,6 +22,9 @@ import com.llw.itemgarden.model.User;
 import com.llw.itemgarden.volley.GsonRequest;
 import com.llw.itemgarden.volley.VolleyErrorHelper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Created by liulewen on 2015/3/23.
  */
@@ -58,30 +61,39 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
                         return;
                     }
                 }
-                User user = new User();
-                user.setTelephone(phoneNumber);
-                user.setPassword(confirmPasswordEt.getText().toString());
-                String requestBody = new Gson().toJson(user);
-                GsonRequest<ServiceResult>registerRequest = new GsonRequest<ServiceResult>(Request.Method.POST, Constants.REGISTER_URL, ServiceResult.class,
-                        requestBody, new Response.Listener<ServiceResult>() {
-                    @Override
-                    public void onResponse(ServiceResult result) {
-                        String message = result.getMessage();
-                    }
-
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        VolleyErrorHelper.getMessage(volleyError,getActivity());
-
-                    }
-                });
-                ItemGardenApplication.getInstance().addRequestToQueue(registerRequest, TAG);
+                register(phoneNumber, confirmPasswordEt.getText().toString());
             }
         });
 
     }
 
+    private void register(String phoneNumber, String password){
+        User user = new User();
+        user.setTelephone(phoneNumber);
+        user.setPassword(phoneNumber);
+        String requestBody = new Gson().toJson(user);
+        Map<String, String> map = new HashMap();
+        map.put("user", requestBody);
+        GsonRequest<ServiceResult>registerRequest = new GsonRequest<ServiceResult>(Request.Method.POST, Constants.REGISTER_URL, ServiceResult.class,
+                map, new Response.Listener<ServiceResult>() {
+            @Override
+            public void onResponse(ServiceResult result) {
+                if(result.isSuccess()){
+                    String message = result.getMessage();
+                    toast(message, true);
+                }else
+                    toast(result.getMessage(), true);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                VolleyErrorHelper.getMessage(volleyError,getActivity());
+
+            }
+        });
+        ItemGardenApplication.getInstance().addRequestToQueue(registerRequest, TAG);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
