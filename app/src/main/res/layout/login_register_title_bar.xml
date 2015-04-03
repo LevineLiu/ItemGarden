@@ -11,20 +11,15 @@
         android:gravity="center_vertical"
         android:background="@drawable/mini_block_item_normal">
 
-        <ImageView
-            android:id="@+id/title_bar_back_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mini_back_focus"
-            android:layout_marginLeft="10dp" />
-
         <TextView
             android:id="@+id/login_register_title"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:textSize="15sp"
             android:gravity="center"
-            android:textColor="@drawable/title_bar_title_selector"/>
+            android:textColor="@drawable/title_bar_title_selector"
+            android:drawableLeft="@drawable/mini_back_focus"
+            android:layout_marginLeft="10dp"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

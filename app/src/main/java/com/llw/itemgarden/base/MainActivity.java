@@ -5,12 +5,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.fragment.HomeFragment;
 import com.llw.itemgarden.fragment.LoginFragment;
+import com.llw.itemgarden.fragment.PostPhotoFragment;
 
 
 public class MainActivity extends FragmentActivity{
@@ -40,8 +43,7 @@ public class MainActivity extends FragmentActivity{
                         break;
                     case R.id.tab_find_button:
                         break;
-                    case R.id.tab_post_button:
-                        break;
+
                     case R.id.tab_message_button:
 //                        showFragment(LoginFragment.class);
 //                        hideFragment(HomeFragment.class);
@@ -55,6 +57,12 @@ public class MainActivity extends FragmentActivity{
             }
         });
         ((RadioButton)findViewById(R.id.tab_home_button)).setChecked(true);
+        (findViewById(R.id.tab_post_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentContainerActivity.startActivity(MainActivity.this, PostPhotoFragment.class, null, false);
+            }
+        });
     }
 
     /**

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.llw.itemgarden" >
 
-    <uses-permission android:name="android.permission.internet"></uses-permission>
+    <uses-permission android:name="android.permission.internet"/>
     <application
         android:name=".ItemGardenApplication"
         android:allowBackup="true"
