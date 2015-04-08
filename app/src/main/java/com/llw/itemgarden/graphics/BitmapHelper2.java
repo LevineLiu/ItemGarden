@@ -17,13 +17,22 @@ public class BitmapHelper2 {
      * @param object the object to be decoded
      * @param options
      * @param resources this is used when the object to be decoded is from the resources
-     * @param reqSize require size
+     * @param reqWidth require width
+     * @param reqHeight require height
+     * @param allowLossCompression if allow to loss compression or not, it will affect the value of options.inSampleSize
      * */
-    public static Bitmap zoomBitmap(Object object, BitmapFactory.Options options, Resources resources, int reqSize){
-        if(reqSize <= 0)
+    public static Bitmap zoomBitmap(Object object, BitmapFactory.Options options, Resources resources,
+                                    int reqWidth, int reqHeight, boolean allowLossCompression){
+        if(reqWidth <= 0 || reqHeight <= 0)
             decodeBitmap(object, options, resources);
-
-        return null;
+        BitmapFactory.Options opt = decodeBounds(object, resources);
+        int simpleSize = caculateInSampleSize(options, reqWidth, reqHeight, allowLossCompression);
+        if(options != null)
+            opt = options;
+        opt.inJustDecodeBounds = false;
+        opt.inSampleSize = simpleSize;
+        Bitmap bitmap = decodeBitmap(object, opt, resources);
+        return bitmap;
     }
 
     public static Bitmap decodeBitmap(Object object, BitmapFactory.Options options, Resources resources){
@@ -44,5 +53,41 @@ public class BitmapHelper2 {
             Log.e(TAG, "decodeBitmap() OOM", e);
         }
         return  null;
+    }
+
+    private static BitmapFactory.Options decodeBounds(Object object, Resources resources){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        decodeBitmap(object, options, resources);
+        return options;
+    }
+
+    private static int caculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight, boolean allowLossCompression){
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int simpleSize = 4;
+
+        if(reqWidth < 0 || reqHeight < 0 )
+            return  simpleSize;
+        //load a large image
+        if(width > reqWidth || height > reqHeight){
+            if(width > height)
+                simpleSize = Math.round((float)height / (float)reqHeight);
+            else
+                simpleSize = Math.round((float)width / (float)reqWidth);
+        }
+        //if allow loss compression, set the nearest value for simpleSize
+        if(allowLossCompression){
+            int size = simpleSize;
+            int power = 1;
+            while((size = size/2) != 1){
+                power++;
+            }
+            if(Math.abs(Math.pow(2, power) - simpleSize) > Math.abs(Math.pow(2, power+1) - simpleSize))
+                simpleSize = (int)Math.pow(2, power+1);
+            else
+                simpleSize = (int)Math.pow(2, power);
+        }
+        return  simpleSize;
     }
 }
