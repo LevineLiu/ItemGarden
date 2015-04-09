@@ -43,7 +43,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
      */
     private void handleCrashException(Throwable throwable){
         String message = throwable.getLocalizedMessage();
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        if(message != null)
+            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
         Looper.prepare();
         Looper.loop();
     }

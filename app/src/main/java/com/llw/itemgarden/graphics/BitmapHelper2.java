@@ -26,7 +26,7 @@ public class BitmapHelper2 {
         if(reqWidth <= 0 || reqHeight <= 0)
             decodeBitmap(object, options, resources);
         BitmapFactory.Options opt = decodeBounds(object, resources);
-        int simpleSize = caculateInSampleSize(options, reqWidth, reqHeight, allowLossCompression);
+        int simpleSize = calculateInSampleSize(opt, reqWidth, reqHeight, allowLossCompression);
         if(options != null)
             opt = options;
         opt.inJustDecodeBounds = false;
@@ -62,7 +62,7 @@ public class BitmapHelper2 {
         return options;
     }
 
-    private static int caculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight, boolean allowLossCompression){
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight, boolean allowLossCompression){
         int height = options.outHeight;
         int width = options.outWidth;
         int simpleSize = 4;

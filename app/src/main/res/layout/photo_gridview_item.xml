@@ -2,16 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <ImageView
         android:id="@+id/photo_gridview_item_img"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:background="@android:color/black"/>
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="#eeeeee"
+        android:scaleType="centerCrop"/>
     <ImageView
+        android:id="@+id/delete_photo_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/select_photo_cancel"/>
+        android:src="@drawable/select_photo_cancel"
+        android:visibility="gone"/>
 
 </RelativeLayout>

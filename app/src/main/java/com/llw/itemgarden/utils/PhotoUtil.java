@@ -3,13 +3,16 @@ package com.llw.itemgarden.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,6 +24,7 @@ import java.util.Locale;
  * @author Created by liulewen on 2015/4/3.
  */
 public class PhotoUtil {
+    private final static String TAG = PhotoUtil.class.getSimpleName();
     /**
      * 弹出拍照和选择图片的对话框
      * @param ActivityOrFragment 上下文
@@ -121,6 +125,26 @@ public class PhotoUtil {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static String getGalleryImagePathWithIntent(Context context,Intent data){
+        if(data == null)
+            return null;
+        Cursor cursor = null;
+        try{
+            Uri uri = data.getData();
+            ContentResolver contentResolver = context.getContentResolver();
+            cursor = contentResolver.query(uri, null, null, null, null);
+            cursor.moveToFirst();
+            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            return path;
+        }catch (Exception e){
+            Log.e(TAG, "getGalleryImagePathWithIntent", e);
+        }finally {
+            if(cursor != null)
+                cursor.close();
+        }
+        return null;
     }
     /**
      * 无法拍照或选择图库时弹出的提示

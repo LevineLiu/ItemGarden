@@ -18,7 +18,7 @@ public class ItemGardenApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mApplication = this;
-        CrashHandler.getInstance().initCrashHandler(getApplicationContext());
+       // CrashHandler.getInstance().initCrashHandler(getApplicationContext());
         UniversalImageLoaderUtil.initConfig(getApplicationContext());
     }
 
