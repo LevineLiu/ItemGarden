@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.llw.itemgarden.R;
-import com.llw.itemgarden.adpater.PhotoGridViewAdapter;
+import com.llw.itemgarden.adpater.GridViewAdapter;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 import com.llw.itemgarden.utils.PhotoUtil;
 import com.llw.itemgarden.view.PhotoGridView;
@@ -23,7 +23,7 @@ public class PostPhotoFragment extends Fragment implements View.OnClickListener{
     public static final int CAPTURE_REQUEST_CODE = 100;
     public static final int GALLERY_REQUEST_CODE = 200;
     public static final String ADD_PHOTO = "add_photo";
-    private PhotoGridViewAdapter mAdapter;
+    private GridViewAdapter mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.publish_post_first_step, container, false);
@@ -32,7 +32,7 @@ public class PostPhotoFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView(View view){
-        mAdapter = new PhotoGridViewAdapter(getActivity(), PostPhotoFragment.this);
+        mAdapter = new GridViewAdapter(getActivity(), PostPhotoFragment.this);
         mAdapter.addData(ADD_PHOTO);
         PhotoGridView gridView = (PhotoGridView) view.findViewById(R.id.photo_grid_view);
         gridView.setAdapter(mAdapter);
