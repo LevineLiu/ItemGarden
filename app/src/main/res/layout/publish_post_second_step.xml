@@ -1,22 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
     <include
+        android:id="@+id/header"
         layout="@layout/publish_post_header"/>
-    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/header"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:layout_marginTop="10dp"
-        android:text="555555555555"/>
+        android:hint="给你的宝贝编个标题"
+        android:singleLine="true"/>
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:background="#dedede"
         android:layout_marginTop="12dp"/>
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="10dp"
+        android:hint="描述一下你的宝贝呗"
+        android:maxLines="5"/>
+    </LinearLayout>
 
-</LinearLayout>
+    <include
+        android:id="@+id/footer_layout"
+        layout="@layout/publish_post_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+    <TextView
+        android:id="@+id/post_second_step_category_tv"
+        android:layout_width="105dp"
+        android:layout_height="32dp"
+        android:background="#eeeeee"
+        android:text="分类"
+        android:layout_above="@id/divider"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:drawableRight="@drawable/post_arrow_down_icon"/>
+    <TextView
+        android:id="@+id/post_second_step_new_tv"
+        android:layout_width="105dp"
+        android:layout_height="32dp"
+        android:background="#eeeeee"
+        android:layout_above="@id/post_second_step_category_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:drawableRight="@drawable/post_arrow_down_icon"
+        />
+
+</RelativeLayout>

@@ -7,15 +7,16 @@
 
     <ImageView
         android:id="@+id/photo_gridview_item_img"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/post_photo_size"
+        android:layout_height="@dimen/post_photo_size"
         android:background="#eeeeee"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"/>
     <ImageView
         android:id="@+id/delete_photo_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/select_photo_cancel"
-        android:visibility="gone"/>
+        android:src="@drawable/select_photo_cancel" />
 
 </RelativeLayout>

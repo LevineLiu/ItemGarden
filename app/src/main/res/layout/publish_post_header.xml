@@ -65,6 +65,7 @@
             android:layout_weight="1"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/post_header_title"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:text="给宝贝拍个照片呗"

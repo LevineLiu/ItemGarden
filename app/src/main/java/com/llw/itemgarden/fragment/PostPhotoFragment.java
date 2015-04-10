@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.adpater.PhotoGridViewAdapter;
@@ -39,7 +39,7 @@ public class PostPhotoFragment extends Fragment implements View.OnClickListener{
 
         ImageView closeImageView = (ImageView) view.findViewById(R.id.post_close_img);
         closeImageView.setOnClickListener(this);
-        Button nextButton = (Button) view.findViewById(R.id.first_step_next_button);
+        TextView nextButton = (TextView) view.findViewById(R.id.first_step_next_button);
         nextButton.setOnClickListener(this);
 
     }
@@ -66,6 +66,8 @@ public class PostPhotoFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.first_step_next_button:
+                if(getActivity() != null)
+                    ((FragmentContainerActivity)getActivity()).addFragment(PostDescriptionFragment.class, true);
                 break;
             case R.id.post_close_img:
                 if(getActivity() != null)
