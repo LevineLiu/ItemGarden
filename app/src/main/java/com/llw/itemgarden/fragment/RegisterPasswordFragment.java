@@ -48,15 +48,14 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
         registerTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(passwordEt.getText())){
+                if (TextUtils.isEmpty(passwordEt.getText())) {
                     toast("请输入密码", true);
                     return;
-                }
-                else if(TextUtils.isEmpty(confirmPasswordEt.getText())){
+                } else if (TextUtils.isEmpty(confirmPasswordEt.getText())) {
                     toast("请确认密码", true);
                     return;
-                }else {
-                    if(!passwordEt.getText().toString().equals(confirmPasswordEt.getText().toString())){
+                } else {
+                    if (!passwordEt.getText().toString().equals(confirmPasswordEt.getText().toString())) {
                         toast("密码不一致", true);
                         return;
                     }
@@ -68,6 +67,7 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
     }
 
     private void register(String phoneNumber, String password){
+        showProgressDialog(false);
         User user = new User();
         user.setTelephone(phoneNumber);
         user.setPassword(phoneNumber);
@@ -78,16 +78,18 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
                 map, new Response.Listener<ServiceResult>() {
             @Override
             public void onResponse(ServiceResult result) {
+                dismissprogressDialog();
                 if(result.isSuccess()){
-                    String message = result.getMessage();
+                    String message = result.getObject();
                     toast(message, true);
                 }else
-                    toast(result.getMessage(), true);
+                    toast(result.getObject(), true);
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                dismissprogressDialog();
                 VolleyErrorHelper.getMessage(volleyError,getActivity());
 
             }
@@ -105,8 +107,8 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         ItemGardenApplication.getInstance().cancelRequests(TAG);
     }
 }

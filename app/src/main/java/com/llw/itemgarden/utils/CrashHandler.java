@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 /**
- * Created by Administrator on 2015/3/12.
+ * @author Created by liulewen on 2015/3/12.
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler{
     private static CrashHandler mCrashHandler;

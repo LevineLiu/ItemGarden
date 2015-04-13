@@ -88,7 +88,7 @@ public class VolleyErrorHelper {
                     return error.getMessage();
 
                 default:
-                    return context.getResources().getString(R.string.internet_exception);
+                    return context.getResources().getString(R.string.server_error);
             }
         }
         return context.getResources().getString(R.string.internet_exception);

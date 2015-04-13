@@ -8,14 +8,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -164,5 +170,30 @@ public class PhotoUtil {
         }else
             message = "Can't find relative application";
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * bitmap转化为base64
+     * */
+    public static String bitmapToBase64(ImageView imageView){
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        String base64 = null;
+        ByteArrayOutputStream stream = null;
+        try{
+            stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] bitmapByte = stream.toByteArray();
+            base64 = Base64.encodeToString(bitmapByte, Base64.DEFAULT);
+            stream.flush();
+            stream.close();
+        }catch (IOException e){
+            try {
+                stream.flush();
+                stream.close();
+            }catch (IOException e1){
+                Log.e(TAG, "bitmapToBase64 failed", e1);
+            }
+        }
+        return base64;
     }
 }

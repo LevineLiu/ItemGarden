@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.GridView;
 
 /**
- * Created by Administrator on 2015/4/8.
+ * @author Created by Administrator on 2015/4/8.
  */
 public class PhotoGridView extends GridView {
     public static boolean isOnMeasure;

@@ -13,35 +13,48 @@ import android.widget.ImageView;
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.fragment.PostPhotoFragment;
 import com.llw.itemgarden.graphics.BitmapHelper2;
+import com.llw.itemgarden.model.ItemImage;
 import com.llw.itemgarden.utils.PhotoUtil;
 import com.llw.itemgarden.view.PhotoGridView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Created by liulewen on 2015/4/2.
  */
 public class GridViewAdapter extends BaseAdapter {
     private Context mContext;
-    private List<String> mData;
+    private List<ItemImage> mData;
     private LayoutInflater mInflater;
     private Fragment mFragment;
-
+    private List<Boolean> isPhotoUpLoad = new ArrayList<>();
+    private Map<Integer, Bitmap> bitmapCache = new HashMap<>();
+    private Map<Integer, ImageView> images = new HashMap<>();
     public GridViewAdapter(Context context, Fragment fragment) {
         mInflater = LayoutInflater.from(context);
         mContext = context;
         mFragment = fragment;
     }
 
-    public void addData(String filePath) {
+    public void addData(ItemImage itemImage) {
         if (mData == null) {
             mData = new ArrayList<>();
-            mData.add(filePath);
-        } else
-            mData.add(filePath);
-        notifyDataSetChanged();
+            mData.add(itemImage);
+        } else{
+            //limit the number of photo to 9
+            if(mData.size() == 10){
+                mData.remove(mData.size() - 1);
+                notifyDataSetChanged();
+            }
+            else
+                mData.add(itemImage);
+        }
+        isPhotoUpLoad.add(false);
+
     }
 
     public void removeLastData() {
@@ -52,7 +65,20 @@ public class GridViewAdapter extends BaseAdapter {
 
     public void removeData(int position) {
         mData.remove(position);
+        isPhotoUpLoad.remove(position);
         notifyDataSetChanged();
+    }
+
+    public Map<Integer, ImageView> getImages(){
+        return images;
+    }
+
+    public Map<Integer, Bitmap> getBitmapCache(){
+        return bitmapCache;
+    }
+
+    public List<Boolean> getIsPhotoUpload(){
+        return isPhotoUpLoad;
     }
 
     @Override
@@ -70,11 +96,12 @@ public class GridViewAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         Log.d("position", position + "");
         convertView = mInflater.inflate(R.layout.photo_gridview_item, null);
-        if (PhotoGridView.isOnMeasure == true) {
+        if (PhotoGridView.isOnMeasure) {
             return convertView;
         }
         final ImageView deleteImageView = (ImageView) convertView.findViewById(R.id.delete_photo_img);
@@ -91,7 +118,16 @@ public class GridViewAdapter extends BaseAdapter {
                 }
             });
         } else {
-            setImage(imageView, mData.get(position));
+            if(bitmapCache.get(position) == null){
+                Bitmap bitmap = setImage(imageView, mData.get(position).getHeadImage());
+                bitmapCache.put(position, bitmap);
+                images.put(position, imageView);
+            }else
+                imageView.setImageBitmap(bitmapCache.get(position));
+            if(!isPhotoUpLoad.get(position)){
+                upLoad(imageView, position);
+                isPhotoUpLoad.set(position, true);
+            }
             deleteImageView.setVisibility(View.VISIBLE);
             deleteImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,14 +140,22 @@ public class GridViewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setImage(ImageView imageView, String imagePath) {
+    private Bitmap setImage(ImageView imageView, String imagePath) {
         if (imageView == null || imagePath == null)
-            return;
+            return null;
         Bitmap bitmap = BitmapHelper2.zoomBitmap(imagePath, null, null, 480, 480, true);
         imageView.setImageBitmap(bitmap);
+        return bitmap;
     }
 
     public String getCaptureFilePath() {
         return mContext.getExternalCacheDir() + File.separator + "capture_photo_temp.png";
+    }
+
+    public void upLoad(ImageView imageView, int position){
+
+    }
+    public void deleteImage(){
+
     }
 }

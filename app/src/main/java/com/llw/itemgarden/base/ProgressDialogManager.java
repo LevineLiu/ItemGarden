@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
+ * @author Created by liulewen on 2015/3/24.
  * A helper class to manage ProgressDialog 
  */
 public abstract class ProgressDialogManager {

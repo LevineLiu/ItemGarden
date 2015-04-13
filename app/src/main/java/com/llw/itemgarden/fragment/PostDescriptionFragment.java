@@ -14,7 +14,7 @@ import com.llw.itemgarden.base.BaseFragment;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 
 /**
- * Created by liulewen on 2015/4/9.
+ * @author Created by liulewen on 2015/4/9.
  */
 public class PostDescriptionFragment extends BaseFragment implements View.OnClickListener{
     private Dialog dialog;

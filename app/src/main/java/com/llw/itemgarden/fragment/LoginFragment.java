@@ -68,8 +68,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         ItemGardenApplication.getInstance().cancelRequests(TAG);
     }
 
@@ -106,25 +106,30 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         user.setTelephone(accountEt.getText().toString());
         user.setPassword(passwordEt.getText().toString());
         String requestBody = new Gson().toJson(user);
-        Map<String, String> map = new HashMap();
+        Map<String, String> map = new HashMap<>();
         map.put("user", requestBody);
-        GsonRequest<ServiceResult> loginRequest = new GsonRequest<ServiceResult>(Request.Method.POST, Constants.LOGIN_URL, ServiceResult.class,
+        GsonRequest<ServiceResult> loginRequest = new GsonRequest<>(Request.Method.POST, Constants.LOGIN_URL, ServiceResult.class,
                 map, new Response.Listener<ServiceResult>() {
             @Override
             public void onResponse(ServiceResult result) {
                 dismissprogressDialog();
                 if (result.isSuccess()) {
-                    String message = result.getMessage();
-                    toast(message, true);
-                } else
-                    toast(result.getMessage(), true);
+                    User user = new Gson().fromJson(result.getObject(), User.class);
+                    ItemGardenApplication.serializeUserInfo(user);
+                    if(getActivity() != null){
+                        getActivity().setResult(FragmentContainerActivity.RESULT_OK);
+                        getActivity().finish();
+                    }
+                }else{
+                    toast(result.getObject(), true);
+                }
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 dismissprogressDialog();
-                VolleyErrorHelper.getMessage(volleyError, getActivity());
+                toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
 
             }
         });

@@ -32,7 +32,7 @@ public class FragmentContainerActivity extends FragmentActivity{
         }
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
+        if(fragment != null && bundle != null)
             fragment.setArguments(bundle);
         replaceFragment(fragment, getIntent().getBooleanExtra(EXTRA_ADD_TO_BACK_STACK, true));
     }
@@ -51,6 +51,10 @@ public class FragmentContainerActivity extends FragmentActivity{
 
     }
 
+    public static void startActivityForResult(FragmentActivity fragmentActivity, Class<?extends Fragment>
+            toFragment, boolean isAddToBackStack, int requestCode, Bundle arguments){
+        startActivity(fragmentActivity, toFragment, isAddToBackStack, true, requestCode, arguments);
+    }
     private static void startActivity(FragmentActivity fragmentActivity, Class<?extends Fragment> toFragment, boolean isAddToBackStack, boolean isStartForResult,
                               int requestCode, Bundle arguments){
         Intent intent = new Intent(fragmentActivity, FragmentContainerActivity.class);

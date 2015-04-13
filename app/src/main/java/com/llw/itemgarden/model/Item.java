@@ -89,7 +89,7 @@ public class Item  extends BaseEntity{
 	 * 买家
 	 */
 	private Long buyBy;
-	
+
 	/**
 	 * 物品所属分类
 	 */

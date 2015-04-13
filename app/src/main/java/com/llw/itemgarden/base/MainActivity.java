@@ -1,23 +1,28 @@
 package com.llw.itemgarden.base;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.llw.itemgarden.ItemGardenApplication;
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.fragment.HomeFragment;
 import com.llw.itemgarden.fragment.LoginFragment;
 import com.llw.itemgarden.fragment.PostPhotoFragment;
+import com.llw.itemgarden.model.User;
 
-
+/**
+ * @author Created by liulewen on 2015/3/24.
+ */
 public class MainActivity extends FragmentActivity{
     private final static String TAG = MainActivity.class.getSimpleName();
+    public final static int LOGIN_REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +44,14 @@ public class MainActivity extends FragmentActivity{
                 switch (checkedId){
                     case R.id.tab_home_button:
                         showFragment(HomeFragment.class);
-                        //hideFragment(LoginFragment.class);
                         break;
                     case R.id.tab_find_button:
                         break;
 
                     case R.id.tab_message_button:
-//                        showFragment(LoginFragment.class);
-//                        hideFragment(HomeFragment.class);
                         FragmentContainerActivity.startActivity(MainActivity.this, LoginFragment.class, null, false);
                         break;
                     case R.id.tab_person_button:
-//                        showFragment(LoginFragment.class);
-//                        hideFragment(HomeFragment.class);
                         break;
                 }
             }
@@ -60,7 +60,11 @@ public class MainActivity extends FragmentActivity{
         (findViewById(R.id.tab_post_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentContainerActivity.startActivity(MainActivity.this, PostPhotoFragment.class, null, false);
+                User user = StaticValueHolder.getObject(ItemGardenApplication.USER_INFO);
+                if(user != null)
+                    FragmentContainerActivity.startActivity(MainActivity.this, PostPhotoFragment.class, null, false);
+                else
+                    FragmentContainerActivity.startActivityForResult(MainActivity.this, LoginFragment.class, false, LOGIN_REQUEST_CODE, null);
             }
         });
     }
@@ -202,5 +206,14 @@ public class MainActivity extends FragmentActivity{
 
     private int getFragmentContainerId(){
         return R.id.fragment_container;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != RESULT_OK)
+            return;
+        if(requestCode == LOGIN_REQUEST_CODE){
+            FragmentContainerActivity.startActivity(MainActivity.this, PostPhotoFragment.class, null, false);
+        }
     }
 }

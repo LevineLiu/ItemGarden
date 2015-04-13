@@ -9,7 +9,7 @@ import com.llw.itemgarden.R;
 import com.llw.itemgarden.base.BaseFragment;
 
 /**
- * Created by liulewen on 2015/4/9.
+ * @author Created by liulewen on 2015/4/9.
  */
 public class PostPriceFragment extends BaseFragment{
     @Override

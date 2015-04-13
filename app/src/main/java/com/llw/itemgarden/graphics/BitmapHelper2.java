@@ -77,7 +77,7 @@ public class BitmapHelper2 {
                 simpleSize = Math.round((float)width / (float)reqWidth);
         }
         //if allow loss compression, set the nearest value for simpleSize
-        if(allowLossCompression){
+        if(allowLossCompression && simpleSize > 2){
             int size = simpleSize;
             int power = 1;
             while((size = size/2) != 1){

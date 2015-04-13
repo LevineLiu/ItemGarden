@@ -10,7 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-
+/**
+ * @author Created by liulewen on 2015/3/14.
+ */
 public class SideBar extends View{
     
 	public static String[] firstLetter = { "A", "B", "C", "D", "E", "F", "G", "H", "I",

@@ -6,22 +6,46 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.llw.itemgarden.utils.CrashHandler;
+import com.llw.itemgarden.base.ObjectIoOperation;
+import com.llw.itemgarden.base.StaticValueHolder;
+import com.llw.itemgarden.model.User;
 import com.llw.itemgarden.utils.UniversalImageLoaderUtil;
 
+import java.io.File;
 
+/**
+ * @author Created by liulewen on 2015/3/14.
+ */
 public class ItemGardenApplication extends Application {
     private static final String TAG = ItemGardenApplication.class.getSimpleName();
+    public static final String USER_INFO = "user_info";
     private static ItemGardenApplication mApplication;
     private RequestQueue mRequestQueue;
+    private static String userInfoObjectFilePath;
     @Override
     public void onCreate() {
         super.onCreate();
         mApplication = this;
+        userInfoObjectFilePath = getFilesDir().getPath() + File.separator + "user_info";
        // CrashHandler.getInstance().initCrashHandler(getApplicationContext());
         UniversalImageLoaderUtil.initConfig(getApplicationContext());
+        deserializeUserInfo();
     }
 
+    public static void serializeUserInfo(User user){
+        StaticValueHolder.putObject(USER_INFO, user);
+        ObjectIoOperation.writeObject(user, userInfoObjectFilePath);
+    }
+
+    public static void deserializeUserInfo(){
+        User user = (User)ObjectIoOperation.readObject(userInfoObjectFilePath);
+        StaticValueHolder.putObject(USER_INFO, user);
+    }
+
+    public static void deleteSerializeUserInfo(){
+        new File(userInfoObjectFilePath).delete();
+        StaticValueHolder.putObject(USER_INFO, null);
+    }
     public static synchronized  ItemGardenApplication getInstance(){
         return mApplication;
     }
