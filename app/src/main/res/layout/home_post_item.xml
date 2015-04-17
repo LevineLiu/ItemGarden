@@ -67,5 +67,17 @@
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
         android:horizontalSpacing="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_location_bg"
+        android:drawableLeft="@drawable/home_item_city"
+        android:drawablePadding="5dp"
+        android:text="广州"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

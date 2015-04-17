@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,6 +43,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
     public static final int CAPTURE_REQUEST_CODE = 100;
     public static final int GALLERY_REQUEST_CODE = 200;
     public static final String ADD_PHOTO = "add_photo";
+    private static final int TIME_OUT = 10000;
     private GridViewAdapter mAdapter;
     private PhotoGridView gridView;
     private long itemId = -1;
@@ -85,7 +87,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
         mAdapter = new GridViewAdapter(getActivity(), PostPhotoFragment.this) {
             @Override
             public void upLoad(ImageView imageView, int position) {
-                //upLoadPhoto(imageView, position);
+                upLoadPhoto(imageView, position);
             }
         };
         ItemImage itemImage = new ItemImage();
@@ -113,7 +115,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
                         if (serviceResult.isSuccess()) {
-
+                            toast("上传成功",true);
                         } else {
                             mAdapter.getIsPhotoUpload().set(position, false);
                             toast(serviceResult.getObject(), true);
@@ -127,6 +129,8 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                 mAdapter.getIsPhotoUpload().set(position, false);
             }
         });
+        //Because upload photo need a long time, we should set the time of TimeOut
+        upLoadPhotoRequest.setRetryPolicy(new DefaultRetryPolicy(TIME_OUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         ItemGardenApplication.getInstance().addRequestToQueue(upLoadPhotoRequest, TAG);
     }
 
