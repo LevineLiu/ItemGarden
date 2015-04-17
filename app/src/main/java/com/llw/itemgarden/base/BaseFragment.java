@@ -48,7 +48,7 @@ public class BaseFragment extends Fragment{
 		mProgressDialog.showProgressDialog(context, isCancelable);
 	}
 	
-	public void dismissprogressDialog(){
+	public void dismissProgressDialog(){
 		mProgressDialog.dismissProgressDialog();
 	}
 	

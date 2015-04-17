@@ -34,7 +34,7 @@ public class VolleyErrorHelper {
         else if (isNetworkProblem(error)) {
             return context.getResources().getString(R.string.no_internet);
         }
-        return context.getResources().getString(R.string.internet_exception);
+        return context.getResources().getString(R.string.server_error);
     }
 
     /**

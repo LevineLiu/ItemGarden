@@ -51,6 +51,17 @@ public class FragmentContainerActivity extends FragmentActivity{
 
     }
 
+    public static void startActivityForResult(Fragment startFragment, Class<?extends Fragment> toFragment,
+                                              boolean isAddToBackStack, int requestCode, Bundle arguments){
+        if(startFragment.getActivity() == null)
+            return;
+        Intent intent = new Intent(startFragment.getActivity(), FragmentContainerActivity.class);
+        intent.putExtra(EXTRA_TO_FRAGMENT_CLASS_NAME,toFragment);
+        intent.putExtra(EXTRA_ADD_TO_BACK_STACK, isAddToBackStack);
+        if(arguments != null)
+            intent.putExtras(arguments);
+        startFragment.startActivityForResult(intent, requestCode);
+    }
     public static void startActivityForResult(FragmentActivity fragmentActivity, Class<?extends Fragment>
             toFragment, boolean isAddToBackStack, int requestCode, Bundle arguments){
         startActivity(fragmentActivity, toFragment, isAddToBackStack, true, requestCode, arguments);
@@ -84,6 +95,25 @@ public class FragmentContainerActivity extends FragmentActivity{
         }catch (IllegalAccessException e){
             e.printStackTrace();
         }
+        String fragmentName = fragmentClass.getSimpleName();
+        transaction.add(getFragmentContainerId(), fragment, fragmentName);
+        if(isAddToBackStack)
+            transaction.addToBackStack(fragmentName);
+        transaction.commitAllowingStateLoss();
+    }
+
+    public void addFragment(Class <? extends Fragment> fragmentClass, boolean isAddToBackStack, Bundle bundle){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment = null;
+        try{
+            fragment = fragmentClass.newInstance();
+        }catch (InstantiationException e){
+            e.printStackTrace();
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }
+        fragment.setArguments(bundle);
         String fragmentName = fragmentClass.getSimpleName();
         transaction.add(getFragmentContainerId(), fragment, fragmentName);
         if(isAddToBackStack)

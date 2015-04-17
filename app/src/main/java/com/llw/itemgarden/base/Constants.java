@@ -31,4 +31,9 @@ public class Constants {
      * 删除物品图片
      */
     public final static String DELETE_ITEM_IMAGE = BASE_URL + "itemImage/delete";
+
+    /**
+     * 删除物品
+     */
+    public final static String DELETE_ITEM = BASE_URL + "item/delete";
 }

@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * @author Created by liulewen on 2015/4/3.
  */
-public class PostPhotoFragment extends BaseFragment implements View.OnClickListener {
+public class PostPhotoFragment extends PostFragment implements View.OnClickListener {
     public static final String TAG = PostPhotoFragment.class.getSimpleName();
     public static final int CAPTURE_REQUEST_CODE = 100;
     public static final int GALLERY_REQUEST_CODE = 200;
@@ -103,12 +103,10 @@ public class PostPhotoFragment extends BaseFragment implements View.OnClickListe
     private void upLoadPhoto(ImageView imageView, final int position) {
         if (itemId == -1)
             getImageItemId();
-        ItemImage itemImage = new ItemImage();
-        itemImage.setHeadImage(PhotoUtil.bitmapToBase64(imageView));
-        String requestBody = new Gson().toJson(itemImage);
-        Map<String, String> map = new HashMap<>();
-        map.put("itemID", itemId + "");
-        map.put("image", requestBody);
+        String image = PhotoUtil.bitmapToBase64(imageView);
+        Map<String, Object> map = new HashMap<>();
+        map.put("itemID", itemId);
+        map.put("image", image);
         GsonRequest<ServiceResult> upLoadPhotoRequest = new GsonRequest<>(Request.Method.POST,
                 Constants.UPDATE_ITEM_IMAGE, ServiceResult.class, map,
                 new Response.Listener<ServiceResult>() {
@@ -139,7 +137,7 @@ public class PostPhotoFragment extends BaseFragment implements View.OnClickListe
         Item item = new Item();
         item.setCreateBy(user.getId());
         String requestBody = new Gson().toJson(item);
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("item", requestBody);
         GsonRequest<ServiceResult> request = new GsonRequest<>(Request.Method.POST,
                 Constants.PUBLISH_ITEM, ServiceResult.class, map,
@@ -149,6 +147,7 @@ public class PostPhotoFragment extends BaseFragment implements View.OnClickListe
                         if (serviceResult.isSuccess()) {
                             Item item = new Gson().fromJson(serviceResult.getObject(), Item.class);
                             itemId = item.getId();
+                            StaticValueHolder.putLong(ItemGardenApplication.GOODS_ID, itemId);
                         } else
                             toast(serviceResult.getObject(), true);
                     }
@@ -173,7 +172,6 @@ public class PostPhotoFragment extends BaseFragment implements View.OnClickListe
         }
         return isUpLoadFinished;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != FragmentContainerActivity.RESULT_OK)
@@ -206,25 +204,19 @@ public class PostPhotoFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.first_step_next_button:
-                if (mAdapter.getCount() == 1) {
-                    toast("总得为宝贝拍张照片吧", true);
-                    return;
-                }
-                if (!isPhotoUploadFinished()) {
-                    toast("图片上传中,请稍等", true);
-                    return;
-                }
+//                if (mAdapter.getCount() == 1) {
+//                    toast("总得为宝贝拍张照片吧", true);
+//                    return;
+//                }
+//                if (!isPhotoUploadFinished()) {
+//                    toast("图片上传中,请稍等", true);
+//                    return;
+//                }
                 if (getActivity() != null)
                     ((FragmentContainerActivity) getActivity()).addFragment(PostDescriptionFragment.class, true);
                 break;
             case R.id.post_close_img:
-//                Bitmap bitmap = mAdapter.getBitmapCache().get(0);
-//                if(bitmap != null){
-//                    bitmap.recycle();
-//                    System.gc();
-//                }
-                if (getActivity() != null)
-                    getActivity().finish();
+                showExitDialog(getActivity());
                 break;
         }
     }

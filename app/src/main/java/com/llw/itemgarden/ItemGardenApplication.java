@@ -19,6 +19,7 @@ import java.io.File;
 public class ItemGardenApplication extends Application {
     private static final String TAG = ItemGardenApplication.class.getSimpleName();
     public static final String USER_INFO = "user_info";
+    public static final String GOODS_ID = "goods_id";
     private static ItemGardenApplication mApplication;
     private RequestQueue mRequestQueue;
     private static String userInfoObjectFilePath;

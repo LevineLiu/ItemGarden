@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +26,7 @@ import com.llw.itemgarden.model.User;
 import com.llw.itemgarden.volley.GsonRequest;
 import com.llw.itemgarden.volley.VolleyErrorHelper;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,18 +101,20 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             toast("请输入密码", true);
             return;
         }
+
+        setProgressDialogMessage("登录中...");
         showProgressDialog(false);
         User user = new User();
         user.setTelephone(accountEt.getText().toString());
         user.setPassword(passwordEt.getText().toString());
         String requestBody = new Gson().toJson(user);
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("user", requestBody);
         GsonRequest<ServiceResult> loginRequest = new GsonRequest<>(Request.Method.POST, Constants.LOGIN_URL, ServiceResult.class,
                 map, new Response.Listener<ServiceResult>() {
             @Override
             public void onResponse(ServiceResult result) {
-                dismissprogressDialog();
+                dismissProgressDialog();
                 if (result.isSuccess()) {
                     User user = new Gson().fromJson(result.getObject(), User.class);
                     ItemGardenApplication.serializeUserInfo(user);
@@ -128,7 +130,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dismissprogressDialog();
+                dismissProgressDialog();
                 toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
 
             }

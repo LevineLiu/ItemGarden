@@ -15,6 +15,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
     <EditText
+        android:id="@+id/post_goods_title_et"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -27,6 +28,7 @@
         android:background="#dedede"
         android:layout_marginTop="12dp"/>
     <EditText
+        android:id="@+id/post_goods_description_et"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -43,7 +45,7 @@
         android:layout_alignParentBottom="true"/>
     <TextView
         android:id="@+id/post_second_step_category_tv"
-        android:layout_width="105dp"
+        android:layout_width="150dp"
         android:layout_height="32dp"
         android:background="#eeeeee"
         android:text="分类"
@@ -56,7 +58,7 @@
         android:drawableRight="@drawable/post_arrow_down_icon"/>
     <TextView
         android:id="@+id/post_second_step_new_tv"
-        android:layout_width="105dp"
+        android:layout_width="150dp"
         android:layout_height="32dp"
         android:background="#eeeeee"
         android:layout_above="@id/post_second_step_category_tv"

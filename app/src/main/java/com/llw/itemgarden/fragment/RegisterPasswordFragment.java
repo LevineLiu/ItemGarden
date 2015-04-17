@@ -67,18 +67,19 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
     }
 
     private void register(String phoneNumber, String password){
+        setProgressDialogMessage("注册中...");
         showProgressDialog(false);
         User user = new User();
         user.setTelephone(phoneNumber);
         user.setPassword(phoneNumber);
         String requestBody = new Gson().toJson(user);
-        Map<String, String> map = new HashMap();
+        Map<String, Object> map = new HashMap();
         map.put("user", requestBody);
         GsonRequest<ServiceResult>registerRequest = new GsonRequest<ServiceResult>(Request.Method.POST, Constants.REGISTER_URL, ServiceResult.class,
                 map, new Response.Listener<ServiceResult>() {
             @Override
             public void onResponse(ServiceResult result) {
-                dismissprogressDialog();
+                dismissProgressDialog();
                 if(result.isSuccess()){
                     String message = result.getObject();
                     toast(message, true);
@@ -89,7 +90,7 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dismissprogressDialog();
+                dismissProgressDialog();
                 VolleyErrorHelper.getMessage(volleyError,getActivity());
 
             }

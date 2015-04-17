@@ -7,7 +7,7 @@
     <string name="no_internet">请检查网络</string>
     <string name="connect_server_failure">连接服务器失败</string>
     <string name="internet_exception">网络异常,请稍后重试</string>
-    <string name="server_error">服务器出错，请稍候重试</string>
+    <string name="server_error">服务器异常，请稍候重试</string>
 
     <string name="pull_to_refresh">Pull to refresh</string>
     <string name="release_to_refresh">Release to refresh</string>
