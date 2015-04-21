@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.llw.itemgarden.ItemGardenApplication;
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.adpater.GridViewAdapter;
-import com.llw.itemgarden.base.BaseFragment;
 import com.llw.itemgarden.base.Constants;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 import com.llw.itemgarden.base.StaticValueHolder;
@@ -86,8 +85,13 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
     private void initView(View view) {
         mAdapter = new GridViewAdapter(getActivity(), PostPhotoFragment.this) {
             @Override
-            public void upLoad(ImageView imageView, int position) {
-                upLoadPhoto(imageView, position);
+            public void upLoad(int position) {
+                upLoadPhoto(position);
+            }
+
+            @Override
+            public void deleteImage(int position) {
+
             }
         };
         ItemImage itemImage = new ItemImage();
@@ -102,20 +106,21 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
         getImageItemId();
     }
 
-    private void upLoadPhoto(ImageView imageView, final int position) {
+    private void upLoadPhoto(final int position) {
         if (itemId == -1)
             getImageItemId();
-        String image = PhotoUtil.bitmapToBase64(imageView);
+        String image = PhotoUtil.bitmapToBase64(mAdapter.getBitmapCache().get(position));
         Map<String, Object> map = new HashMap<>();
         map.put("itemID", itemId);
         map.put("image", image);
-        GsonRequest<ServiceResult> upLoadPhotoRequest = new GsonRequest<>(Request.Method.POST,
-                Constants.UPDATE_ITEM_IMAGE, ServiceResult.class, map,
+        GsonRequest upLoadPhotoRequest = new GsonRequest(Request.Method.POST,
+                Constants.UPDATE_ITEM_IMAGE, map,
                 new Response.Listener<ServiceResult>() {
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
                         if (serviceResult.isSuccess()) {
                             toast("上传成功",true);
+                            mAdapter.getIsPhotoUpload().set(position, true);
                         } else {
                             mAdapter.getIsPhotoUpload().set(position, false);
                             toast(serviceResult.getObject(), true);
@@ -124,14 +129,32 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if (getActivity() != null)
-                    toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
+                toast("上传失败", true);
                 mAdapter.getIsPhotoUpload().set(position, false);
             }
         });
         //Because upload photo need a long time, we should set the time of TimeOut
         upLoadPhotoRequest.setRetryPolicy(new DefaultRetryPolicy(TIME_OUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         ItemGardenApplication.getInstance().addRequestToQueue(upLoadPhotoRequest, TAG);
+    }
+
+    private void deleteImage(int position){
+        ItemImage itemImage = (ItemImage)mAdapter.getItem(position);
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", itemImage.getId());
+        GsonRequest deleteImageRequest = new GsonRequest(Constants.DELETE_ITEM_IMAGE, map,
+                new Response.Listener<ServiceResult>() {
+                    @Override
+                    public void onResponse(ServiceResult serviceResult) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if(getActivity() != null)
+                    toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
+            }
+        });
     }
 
     private void getImageItemId() {
@@ -143,8 +166,8 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
         String requestBody = new Gson().toJson(item);
         Map<String, Object> map = new HashMap<>();
         map.put("item", requestBody);
-        GsonRequest<ServiceResult> request = new GsonRequest<>(Request.Method.POST,
-                Constants.PUBLISH_ITEM, ServiceResult.class, map,
+        GsonRequest request = new GsonRequest(Request.Method.POST,
+                Constants.PUBLISH_ITEM, map,
                 new Response.Listener<ServiceResult>() {
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
@@ -170,7 +193,8 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
     private boolean isPhotoUploadFinished() {
         List<Boolean> list = mAdapter.getIsPhotoUpload();
         boolean isUpLoadFinished = true;
-        for (boolean item : list) {
+        for (int i=0; i< mAdapter.getCount()-1; i++) {
+            Boolean item = list.get(i);
             if (!item)
                 isUpLoadFinished = false;
         }
@@ -208,14 +232,14 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.first_step_next_button:
-//                if (mAdapter.getCount() == 1) {
-//                    toast("总得为宝贝拍张照片吧", true);
-//                    return;
-//                }
-//                if (!isPhotoUploadFinished()) {
-//                    toast("图片上传中,请稍等", true);
-//                    return;
-//                }
+                if (mAdapter.getCount() == 1) {
+                    toast("总得为宝贝拍张照片吧", true);
+                    return;
+                }
+                if (!isPhotoUploadFinished()) {
+                    toast("图片上传中,请稍等", true);
+                    return;
+                }
                 if (getActivity() != null)
                     ((FragmentContainerActivity) getActivity()).addFragment(PostDescriptionFragment.class, true);
                 break;

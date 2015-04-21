@@ -175,8 +175,7 @@ public class PhotoUtil {
     /**
      * bitmap转化为base64
      * */
-    public static String bitmapToBase64(ImageView imageView){
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+    public static String bitmapToBase64(Bitmap bitmap){
         String base64 = null;
         ByteArrayOutputStream stream = null;
         try{

@@ -49,7 +49,7 @@ public class PostFragment extends BaseFragment {
             builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //deleteGoods();
+                    deleteGoods(context);
                     ((FragmentContainerActivity)context).finish();
                 }
             });
@@ -60,24 +60,21 @@ public class PostFragment extends BaseFragment {
             dialog.show();
     }
 
-    private void deleteGoods(){
+    private void deleteGoods(final Context context){
         long itemId = StaticValueHolder.getLong(ItemGardenApplication.GOODS_ID, 0);
         Map<String, Object> map = new HashMap<>();
         map.put("id", itemId);
-        GsonRequest deleteGoodsRequest = new GsonRequest<>(Request.Method.POST, Constants.DELETE_ITEM,
-                ServiceResult.class, map,
+        GsonRequest deleteGoodsRequest = new GsonRequest(Request.Method.POST, Constants.DELETE_ITEM, map,
                 new Response.Listener<ServiceResult>(){
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
-                        if(serviceResult.isSuccess()){
-
-                        }
                     }
                 }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if(getActivity() != null)
                     toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
+
             }
         });
         ItemGardenApplication.getInstance().addRequestToQueue(deleteGoodsRequest, TAG);

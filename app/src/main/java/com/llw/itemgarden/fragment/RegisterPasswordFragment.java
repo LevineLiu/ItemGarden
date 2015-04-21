@@ -75,7 +75,7 @@ public class RegisterPasswordFragment extends BaseFragment implements View.OnCli
         String requestBody = new Gson().toJson(user);
         Map<String, Object> map = new HashMap();
         map.put("user", requestBody);
-        GsonRequest<ServiceResult>registerRequest = new GsonRequest<ServiceResult>(Request.Method.POST, Constants.REGISTER_URL, ServiceResult.class,
+        GsonRequest registerRequest = new GsonRequest(Request.Method.POST, Constants.REGISTER_URL,
                 map, new Response.Listener<ServiceResult>() {
             @Override
             public void onResponse(ServiceResult result) {

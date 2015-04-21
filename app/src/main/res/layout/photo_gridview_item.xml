@@ -13,6 +13,10 @@
         android:scaleType="centerCrop"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"/>
+    <View
+        android:layout_width="@dimen/post_photo_size"
+        android:layout_height="@dimen/post_photo_size"
+        android:background="#05f00"/>
     <ImageView
         android:id="@+id/delete_photo_img"
         android:layout_width="wrap_content"

@@ -88,6 +88,11 @@ public class BitmapHelper2 {
             else
                 simpleSize = (int)Math.pow(2, power);
         }
+        int resize = width * height * 4 / 1024 / simpleSize/ simpleSize;
+        // resized bitmap larger than 1M.
+        if(resize >= 900) {
+            simpleSize = simpleSize * 4;
+        }
         return  simpleSize;
     }
 }

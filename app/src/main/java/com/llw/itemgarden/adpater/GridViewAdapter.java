@@ -66,6 +66,7 @@ public class GridViewAdapter extends BaseAdapter {
     public void removeData(int position) {
         mData.remove(position);
         isPhotoUpLoad.remove(position);
+        bitmapCache.remove(position);
         notifyDataSetChanged();
     }
 
@@ -122,16 +123,18 @@ public class GridViewAdapter extends BaseAdapter {
                 Bitmap bitmap = setImage(imageView, mData.get(position).getHeadImage());
                 bitmapCache.put(position, bitmap);
                 images.put(position, imageView);
+                upLoad(position);
             }else
                 imageView.setImageBitmap(bitmapCache.get(position));
-            if(!isPhotoUpLoad.get(position)){
-                upLoad(imageView, position);
-                isPhotoUpLoad.set(position, true);
-            }
+//            if(!isPhotoUpLoad.get(position)){
+//                upLoad(position);
+//            }
             deleteImageView.setVisibility(View.VISIBLE);
             deleteImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(isPhotoUpLoad.get(position))
+                        deleteImage(position);
                     removeData(position);
                 }
             });
@@ -152,10 +155,10 @@ public class GridViewAdapter extends BaseAdapter {
         return mContext.getExternalCacheDir() + File.separator + "capture_photo_temp.png";
     }
 
-    public void upLoad(ImageView imageView, int position){
+    public void upLoad(int position){
 
     }
-    public void deleteImage(){
+    public void deleteImage(int position){
 
     }
 }

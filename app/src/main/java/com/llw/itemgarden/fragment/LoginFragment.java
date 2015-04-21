@@ -110,7 +110,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         String requestBody = new Gson().toJson(user);
         Map<String, Object> map = new HashMap<>();
         map.put("user", requestBody);
-        GsonRequest<ServiceResult> loginRequest = new GsonRequest<>(Request.Method.POST, Constants.LOGIN_URL, ServiceResult.class,
+        GsonRequest loginRequest = new GsonRequest(Request.Method.POST, Constants.LOGIN_URL,
                 map, new Response.Listener<ServiceResult>() {
             @Override
             public void onResponse(ServiceResult result) {
