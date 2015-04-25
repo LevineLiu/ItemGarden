@@ -36,4 +36,14 @@ public class Constants {
      * 删除物品
      */
     public final static String DELETE_ITEM = BASE_URL + "item/delete";
+
+    /**
+     * 物品父分类
+     */
+    public final static String GET_GOODS_CATEGORY = BASE_URL + "itemKind/parent";
+
+    /**
+     * 物品子分类
+     */
+    public final static String  GET_GOODS_SUB_CATEGORY = BASE_URL + "itemKind/child";
 }

@@ -41,4 +41,11 @@ public class HomeFragment extends BaseFragment{
         });
 
     }
+
+    /**
+     * 获取物品
+     */
+    private void getGoods(){
+
+    }
 }

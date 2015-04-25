@@ -40,6 +40,11 @@ public class GsonRequest extends Request<ServiceResult>{
         this(Method.POST, url, request, listener, errorListener);
     }
 
+    public GsonRequest(String url, Response.Listener<ServiceResult> listener,
+                       Response.ErrorListener errorListener){
+        this(Method.GET, url, null, listener, errorListener);
+    }
+
     @Override
     protected void deliverResponse(ServiceResult response) {
         mListener.onResponse(response);

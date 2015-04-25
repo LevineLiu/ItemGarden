@@ -20,6 +20,7 @@ public class ItemGardenApplication extends Application {
     private static final String TAG = ItemGardenApplication.class.getSimpleName();
     public static final String USER_INFO = "user_info";
     public static final String GOODS_ID = "goods_id";
+    public static final String POST_ITEM = "post_item";
     private static ItemGardenApplication mApplication;
     private RequestQueue mRequestQueue;
     private static String userInfoObjectFilePath;

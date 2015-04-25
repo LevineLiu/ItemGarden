@@ -57,12 +57,18 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
     @Override
     public void onStop() {
         super.onStop();
+        //StaticValueHolder.remove(ItemGardenApplication.POST_ITEM);
         ItemGardenApplication.getInstance().cancelRequests(TAG);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Item item = StaticValueHolder.getObject(ItemGardenApplication.POST_ITEM);
+        if(item != null){
+            StaticValueHolder.putObject(ItemGardenApplication.POST_ITEM, null);
+            StaticValueHolder.remove(ItemGardenApplication.POST_ITEM);
+        }
         recycleBitmap();
     }
 
@@ -83,6 +89,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
         }
     }
     private void initView(View view) {
+
         mAdapter = new GridViewAdapter(getActivity(), PostPhotoFragment.this) {
             @Override
             public void upLoad(int position) {
@@ -91,7 +98,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
 
             @Override
             public void deleteImage(int position) {
-
+                deleteImages(position);
             }
         };
         ItemImage itemImage = new ItemImage();
@@ -106,6 +113,9 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
         getImageItemId();
     }
 
+    /**
+     * upload a photo
+     */
     private void upLoadPhoto(final int position) {
         if (itemId == -1)
             getImageItemId();
@@ -119,7 +129,9 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
                         if (serviceResult.isSuccess()) {
-                            toast("上传成功",true);
+                            ItemImage itemImage = new Gson().fromJson(serviceResult.getObject(), ItemImage.class);
+                            ((ItemImage)mAdapter.getItem(position)).setId(itemImage.getId());
+                            toast("上传成功", true);
                             mAdapter.getIsPhotoUpload().set(position, true);
                         } else {
                             mAdapter.getIsPhotoUpload().set(position, false);
@@ -138,7 +150,10 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
         ItemGardenApplication.getInstance().addRequestToQueue(upLoadPhotoRequest, TAG);
     }
 
-    private void deleteImage(int position){
+    /**
+     * delete a image
+     */
+    private void deleteImages(int position){
         ItemImage itemImage = (ItemImage)mAdapter.getItem(position);
         Map<String, Object> map = new HashMap<>();
         map.put("id", itemImage.getId());
@@ -146,7 +161,9 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                 new Response.Listener<ServiceResult>() {
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
+                        if(serviceResult.isSuccess()){
 
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -155,8 +172,11 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                     toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
             }
         });
+        ItemGardenApplication.getInstance().addRequestToQueue(deleteImageRequest, TAG);
     }
-
+    /**
+     * get the id of item
+     */
     private void getImageItemId() {
         User user = StaticValueHolder.getObject(ItemGardenApplication.USER_INFO);
         if (user == null)
@@ -174,7 +194,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                         if (serviceResult.isSuccess()) {
                             Item item = new Gson().fromJson(serviceResult.getObject(), Item.class);
                             itemId = item.getId();
-                            StaticValueHolder.putLong(ItemGardenApplication.GOODS_ID, itemId);
+                            StaticValueHolder.putObject(ItemGardenApplication.POST_ITEM, item);
                         } else
                             toast(serviceResult.getObject(), true);
                     }
@@ -241,7 +261,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                     return;
                 }
                 if (getActivity() != null)
-                    ((FragmentContainerActivity) getActivity()).addFragment(PostDescriptionFragment.class, true);
+                    ((FragmentContainerActivity) getActivity()).switchFragment(PostPhotoFragment.this, PostDescriptionFragment.class, null);
                 break;
             case R.id.post_close_img:
                 showExitDialog(getActivity());

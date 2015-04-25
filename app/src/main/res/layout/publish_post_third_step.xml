@@ -24,20 +24,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="想卖" />
-
             <TextView
-                android:id="@+id/post_sale_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"/>
 
             <EditText
+                android:id="@+id/post_sale_price_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:singleLine="true"
-                android:hint="0.00" />
+                android:hint="0.00"
+                android:inputType="number"/>
         </LinearLayout>
 
         <View
@@ -60,19 +60,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="原价" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"/>
 
             <EditText
+                android:id="@+id/post_original_price_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:singleLine="true"
-                android:hint="0.00" />
+                android:hint="0.00"
+                android:inputType="number"/>
         </LinearLayout>
 
         <View
@@ -95,19 +96,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="运费" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"/>
 
             <EditText
+                android:id="@+id/post_transport_price_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:singleLine="true"
-                android:hint="0.00" />
+                android:hint="0.00"
+                android:inputType="number"/>
         </LinearLayout>
 
         <View

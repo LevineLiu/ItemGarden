@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
+import com.llw.itemgarden.R;
 
 
 /**
@@ -23,11 +24,14 @@ public class FragmentContainerActivity extends FragmentActivity{
         setContentView(mFrameLayout);
         Fragment fragment = null;
         try{
-            fragment = ((Class<? extends Fragment>)getIntent().getSerializableExtra(EXTRA_TO_FRAGMENT_CLASS_NAME)).newInstance();
+            Class<?extends Fragment> fragmentClass = (Class)getIntent().getSerializableExtra(EXTRA_TO_FRAGMENT_CLASS_NAME);
+            fragment = fragmentClass.newInstance();
 
         }catch (IllegalAccessException e){
             e.printStackTrace();
         }catch (InstantiationException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -141,6 +145,106 @@ public class FragmentContainerActivity extends FragmentActivity{
             transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
     }
+
+    /**
+     * replace a Fragment
+     */
+    public void replaceFragment(Fragment fragment, boolean isAddToBackStack, String tag){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(getFragmentContainerId(), fragment, null);
+        if(isAddToBackStack)
+            transaction.addToBackStack(tag);
+        transaction.commitAllowingStateLoss();
+    }
+
+    /**
+     * switch the fragment
+     *
+     */
+    public void switchFragment(Class<? extends Fragment> fromFragmentClass,
+                               Class<? extends Fragment> toFragmentClass, Bundle args) {
+        FragmentManager fm = getSupportFragmentManager();
+        // Fragment事务
+        FragmentTransaction ft = fm.beginTransaction();
+        // 被切换的Fragment标签
+        String fromTag = fromFragmentClass.getSimpleName();
+        // 切换到的Fragment标签
+        String toTag = toFragmentClass.getSimpleName();
+        // 查找切换的Fragment
+        Fragment fromFragment = fm.findFragmentByTag(fromTag);
+        Fragment toFragment = fm.findFragmentByTag(toTag);
+        // 如果要切换到的Fragment不存在，则创建
+        if (toFragment == null) {
+            try {
+                toFragment = toFragmentClass.newInstance();
+                toFragment.setArguments(args);
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        /**
+         * 如果要切换到的Fragment没有被Fragment事务添加，则隐藏被切换的Fragment，添加要切换的Fragment
+         * 否则，则隐藏被切换的Fragment，显示要切换的Fragment
+         */
+        if (!toFragment.isAdded()) {
+            ft.hide(fromFragment);
+            ft.add(getFragmentContainerId(), toFragment, toTag);
+            // 添加到返回堆栈
+            ft.addToBackStack(toTag);
+        } else {
+            ft.hide(fromFragment);
+            ft.show(toFragment);
+        }
+        // 不保留状态提交事务
+        ft.commitAllowingStateLoss();
+    }
+
+    /**
+     * switch the fragment
+     *
+     */
+    public void switchFragment(Fragment fromFragment,
+                               Class<? extends Fragment> toFragmentClass, Bundle args) {
+        FragmentManager fm = getSupportFragmentManager();
+        // Fragment事务
+        FragmentTransaction ft = fm.beginTransaction();
+        // 切换到的Fragment标签
+        String toTag = toFragmentClass.getSimpleName();
+        Fragment toFragment = fm.findFragmentByTag(toTag);
+        // 如果要切换到的Fragment不存在，则创建
+        if (toFragment == null) {
+            try {
+                toFragment = toFragmentClass.newInstance();
+                toFragment.setArguments(args);
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+//        // 设置Fragment切换效果
+//        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+//                android.R.anim.fade_in, android.R.anim.fade_out);
+        /**
+         * 如果要切换到的Fragment没有被Fragment事务添加，则隐藏被切换的Fragment，添加要切换的Fragment
+         * 否则，则隐藏被切换的Fragment，显示要切换的Fragment
+         */
+        if (!toFragment.isAdded()) {
+            ft.hide(fromFragment);
+            ft.add(getFragmentContainerId(), toFragment, toTag);
+            // 添加到返回堆栈
+            ft.addToBackStack(toTag);
+        } else {
+            ft.hide(fromFragment);
+            ft.show(toFragment);
+        }
+        // 不保留状态提交事务
+        ft.commitAllowingStateLoss();
+    }
+
     private int getFragmentContainerId(){
         return android.R.id.content;
     }

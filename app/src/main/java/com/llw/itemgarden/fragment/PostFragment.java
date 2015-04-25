@@ -13,6 +13,7 @@ import com.llw.itemgarden.base.BaseFragment;
 import com.llw.itemgarden.base.Constants;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 import com.llw.itemgarden.base.StaticValueHolder;
+import com.llw.itemgarden.model.Item;
 import com.llw.itemgarden.model.ServiceResult;
 import com.llw.itemgarden.volley.GsonRequest;
 import com.llw.itemgarden.volley.VolleyErrorHelper;
@@ -36,6 +37,8 @@ public class PostFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        deleteGoods();
+        StaticValueHolder.remove(ItemGardenApplication.POST_ITEM);
         dialog = null;
     }
 
@@ -49,7 +52,6 @@ public class PostFragment extends BaseFragment {
             builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    deleteGoods(context);
                     ((FragmentContainerActivity)context).finish();
                 }
             });
@@ -60,8 +62,14 @@ public class PostFragment extends BaseFragment {
             dialog.show();
     }
 
-    private void deleteGoods(final Context context){
-        long itemId = StaticValueHolder.getLong(ItemGardenApplication.GOODS_ID, 0);
+    private void deleteGoods(){
+        Item item = StaticValueHolder.getObject(ItemGardenApplication.POST_ITEM);
+        if(item == null){
+            if(getActivity() != null)
+                getActivity().finish();
+            return;
+        }
+        long itemId = item.getId();
         Map<String, Object> map = new HashMap<>();
         map.put("id", itemId);
         GsonRequest deleteGoodsRequest = new GsonRequest(Request.Method.POST, Constants.DELETE_ITEM, map,
@@ -72,8 +80,7 @@ public class PostFragment extends BaseFragment {
                 }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if(getActivity() != null)
-                    toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
+
 
             }
         });

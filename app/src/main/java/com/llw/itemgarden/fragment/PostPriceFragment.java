@@ -7,20 +7,34 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.llw.itemgarden.ItemGardenApplication;
 import com.llw.itemgarden.R;
-import com.llw.itemgarden.base.BaseFragment;
+import com.llw.itemgarden.base.Constants;
 import com.llw.itemgarden.base.FragmentContainerActivity;
+import com.llw.itemgarden.base.StaticValueHolder;
+import com.llw.itemgarden.model.Item;
+import com.llw.itemgarden.model.ServiceResult;
+import com.llw.itemgarden.volley.GsonRequest;
+import com.llw.itemgarden.volley.VolleyErrorHelper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Created by liulewen on 2015/4/9.
  */
 public class PostPriceFragment extends PostFragment implements View.OnClickListener{
+    private final static String TAG = PostPriceFragment.class.getSimpleName();
     private final static int REQUEST_CODE = 200;
     private TextView locationTv;
-    private TextView salePriceTv;
+    private EditText salePriceEt,originalPriceEt,transportPriceEt;
     private TextView previousTv;
     private TextView nextTv;
     @Override
@@ -30,11 +44,21 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        ItemGardenApplication.getInstance().cancelRequests(TAG);
+    }
+
     private void initView(View view){
         locationTv = (TextView) view.findViewById(R.id.post_location_tv);
-        salePriceTv = (TextView) view.findViewById(R.id.post_sale_price_tv);
+        salePriceEt = (EditText) view.findViewById(R.id.post_sale_price_et);
+        originalPriceEt = (EditText) view.findViewById(R.id.post_original_price_et);
+        transportPriceEt = (EditText) view.findViewById(R.id.post_transport_price_et);
         previousTv = (TextView) view.findViewById(R.id.previous_button);
         nextTv = (TextView) view.findViewById(R.id.next_button);
+
+        locationTv.setText("北京市");
         nextTv.setText("发布");
         previousTv.setOnClickListener(this);
         nextTv.setOnClickListener(this);
@@ -44,6 +68,32 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
 
     }
 
+    private void publishPost(Item item){
+        Map<String, Object> map = new HashMap<>();
+        String itemString = new Gson().toJson(item);
+        map.put("item", itemString);
+        GsonRequest publishRequest = new GsonRequest(Constants.PUBLISH_ITEM, map,
+                new Response.Listener<ServiceResult>() {
+                    @Override
+                    public void onResponse(ServiceResult serviceResult) {
+                        if(serviceResult.isSuccess()){
+                            toast("发布成功", true);
+                        }else{
+                            if (serviceResult.getObject() != null)
+                                toast(serviceResult.getObject(), true);
+                            else
+                                toast("发布失败", true);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if(getActivity() != null)
+                    toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
+            }
+        });
+        ItemGardenApplication.getInstance().addRequestToQueue(publishRequest, TAG);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -53,11 +103,21 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
                 break;
             case R.id.previous_button:
                 if(getActivity() != null)
-                getActivity().getSupportFragmentManager().popBackStack();
+                    ((FragmentContainerActivity)getActivity()).switchFragment(PostPriceFragment.class,
+                            PostDescriptionFragment.class, null);
                 break;
             case R.id.next_button:
-                if(TextUtils.isEmpty(salePriceTv.getText()))
+                if(TextUtils.isEmpty(salePriceEt.getText())){
                     toast("无价之宝！别闹了，给宝贝定个价呗", true);
+                    return;
+                }
+                Item item = StaticValueHolder.getObject(ItemGardenApplication.POST_ITEM);
+                item.setNewPrice(Double.parseDouble(salePriceEt.getText().toString()));
+                if(!TextUtils.isEmpty(originalPriceEt.getText()))
+                    item.setOldPrive(Double.parseDouble(originalPriceEt.getText().toString()));
+                if(!TextUtils.isEmpty(transportPriceEt.getText()))
+                    item.setCarryPrice(Double.parseDouble(transportPriceEt.getText().toString()));
+                publishPost(item);
                 break;
             case R.id.post_close_img:
                 if(getActivity() != null)
