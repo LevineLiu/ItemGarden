@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.post;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,7 +16,6 @@ import com.llw.itemgarden.base.StaticValueHolder;
 import com.llw.itemgarden.model.Item;
 import com.llw.itemgarden.model.ServiceResult;
 import com.llw.itemgarden.volley.GsonRequest;
-import com.llw.itemgarden.volley.VolleyErrorHelper;
 
 import java.util.HashMap;
 import java.util.Map;

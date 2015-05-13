@@ -1,5 +1,6 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.loginandregister;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -26,7 +27,6 @@ import com.llw.itemgarden.model.User;
 import com.llw.itemgarden.volley.GsonRequest;
 import com.llw.itemgarden.volley.VolleyErrorHelper;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,7 +119,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     User user = new Gson().fromJson(result.getObject(), User.class);
                     ItemGardenApplication.serializeUserInfo(user);
                     if(getActivity() != null){
-                        getActivity().setResult(FragmentContainerActivity.RESULT_OK);
+                        getActivity().setResult(Activity.RESULT_OK);
                         getActivity().finish();
                     }
                 }else{

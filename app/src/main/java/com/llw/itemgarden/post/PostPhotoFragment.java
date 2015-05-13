@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.post;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -267,5 +267,7 @@ public class PostPhotoFragment extends PostFragment implements View.OnClickListe
                 showExitDialog(getActivity());
                 break;
         }
+
+
     }
 }

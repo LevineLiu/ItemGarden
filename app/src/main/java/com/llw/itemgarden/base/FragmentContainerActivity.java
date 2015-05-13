@@ -23,8 +23,10 @@ public class FragmentContainerActivity extends FragmentActivity{
         FrameLayout mFrameLayout = new FrameLayout(this);
         setContentView(mFrameLayout);
         Fragment fragment = null;
+        String tag = null;
         try{
             Class<?extends Fragment> fragmentClass = (Class)getIntent().getSerializableExtra(EXTRA_TO_FRAGMENT_CLASS_NAME);
+            tag = fragmentClass.getSimpleName();
             fragment = fragmentClass.newInstance();
 
         }catch (IllegalAccessException e){
@@ -38,7 +40,7 @@ public class FragmentContainerActivity extends FragmentActivity{
         Bundle bundle = getIntent().getExtras();
         if(fragment != null && bundle != null)
             fragment.setArguments(bundle);
-        replaceFragment(fragment, getIntent().getBooleanExtra(EXTRA_ADD_TO_BACK_STACK, true));
+        replaceFragment(fragment, getIntent().getBooleanExtra(EXTRA_ADD_TO_BACK_STACK, true), tag);
     }
 
 
@@ -81,8 +83,6 @@ public class FragmentContainerActivity extends FragmentActivity{
             fragmentActivity.startActivity(intent);
         else
             fragmentActivity.startActivityForResult(intent, requestCode);
-
-
     }
 
     /**
@@ -152,11 +152,13 @@ public class FragmentContainerActivity extends FragmentActivity{
     public void replaceFragment(Fragment fragment, boolean isAddToBackStack, String tag){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(getFragmentContainerId(), fragment, null);
+        transaction.replace(getFragmentContainerId(), fragment, tag);
         if(isAddToBackStack)
             transaction.addToBackStack(tag);
         transaction.commitAllowingStateLoss();
     }
+
+
 
     /**
      * switch the fragment
@@ -185,6 +187,9 @@ public class FragmentContainerActivity extends FragmentActivity{
                 e.printStackTrace();
             }
         }
+
+//        ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+//                android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         /**
          * 如果要切换到的Fragment没有被Fragment事务添加，则隐藏被切换的Fragment，添加要切换的Fragment
          * 否则，则隐藏被切换的Fragment，显示要切换的Fragment
@@ -226,8 +231,8 @@ public class FragmentContainerActivity extends FragmentActivity{
             }
         }
 //        // 设置Fragment切换效果
-//        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
-//                android.R.anim.fade_in, android.R.anim.fade_out);
+//        ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+//                android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         /**
          * 如果要切换到的Fragment没有被Fragment事务添加，则隐藏被切换的Fragment，添加要切换的Fragment
          * 否则，则隐藏被切换的Fragment，显示要切换的Fragment

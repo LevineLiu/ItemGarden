@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.loginandregister;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

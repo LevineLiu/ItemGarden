@@ -5,7 +5,7 @@ package com.llw.itemgarden.base;
  */
 public class Constants {
 
-    public final static String BASE_URL = "http://112.74.125.71:8080/itemgarden/";
+    public final static String BASE_URL = "http://120.24.88.71:8080/itemgarden/";
 
     /**
      * 注册

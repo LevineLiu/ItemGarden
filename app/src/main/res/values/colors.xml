@@ -2,7 +2,10 @@
 <resources>
     <color name="background">#ffeeeeee</color>
     <color name="black">#ff000000</color>
-
+    <color name="main_background">#e5e5e5</color>
+    <color name="yellow">#ffda44</color>
     <drawable name="simple_list_item_pressed">#eeeeee</drawable>
     <drawable name="simple_list_item_normal">#ffffff</drawable>
+
+
 </resources>

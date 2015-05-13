@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.llw.itemgarden.R;
-import com.llw.itemgarden.fragment.PostPhotoFragment;
+import com.llw.itemgarden.post.PostPhotoFragment;
 import com.llw.itemgarden.graphics.BitmapHelper2;
 import com.llw.itemgarden.model.ItemImage;
 import com.llw.itemgarden.utils.PhotoUtil;

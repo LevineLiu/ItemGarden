@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.post;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

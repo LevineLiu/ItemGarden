@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.post;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -51,6 +51,8 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
     }
 
     private void initView(View view){
+        TextView title = (TextView) view.findViewById(R.id.post_header_title);
+        title.setText("开个价吧！骚年");
         locationTv = (TextView) view.findViewById(R.id.post_location_tv);
         salePriceEt = (EditText) view.findViewById(R.id.post_sale_price_et);
         originalPriceEt = (EditText) view.findViewById(R.id.post_original_price_et);

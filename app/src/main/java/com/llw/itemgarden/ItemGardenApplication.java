@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.baidu.mapapi.SDKInitializer;
 import com.llw.itemgarden.base.ObjectIoOperation;
 import com.llw.itemgarden.base.StaticValueHolder;
 import com.llw.itemgarden.model.User;
@@ -27,6 +28,8 @@ public class ItemGardenApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //百度SDK初始化
+        //SDKInitializer.initialize(getApplicationContext());
         mApplication = this;
         userInfoObjectFilePath = getFilesDir().getPath() + File.separator + "user_info";
        // CrashHandler.getInstance().initCrashHandler(getApplicationContext());

@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.post;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import com.llw.itemgarden.base.BaseFragment;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Created by liulewen on 2015/4/16.

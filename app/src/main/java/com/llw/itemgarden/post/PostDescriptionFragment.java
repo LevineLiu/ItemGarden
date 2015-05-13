@@ -1,4 +1,4 @@
-package com.llw.itemgarden.fragment;
+package com.llw.itemgarden.post;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.llw.itemgarden.ItemGardenApplication;
 import com.llw.itemgarden.R;
-import com.llw.itemgarden.base.BaseFragment;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 import com.llw.itemgarden.base.StaticValueHolder;
 import com.llw.itemgarden.model.ContentClass;

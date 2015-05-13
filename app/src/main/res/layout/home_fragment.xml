@@ -4,11 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@color/yellow">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="首页"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:id="@+id/menu_search_img"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:src="@drawable/menu_search"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"/>
+    </RelativeLayout>
 
     <com.llw.itemgarden.view.PullToRefreshListView
-        android:id="@+id/refresh_listview"
+        android:id="@+id/refresh_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:listSelector="@android:color/transparent"></com.llw.itemgarden.view.PullToRefreshListView>
+        android:listSelector="@android:color/transparent"/>
 
 </LinearLayout>
