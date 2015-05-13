@@ -24,6 +24,7 @@ import com.llw.itemgarden.search.SearchFragment;
 public class MainActivity extends FragmentActivity{
     private final static String TAG = MainActivity.class.getSimpleName();
     public final static int LOGIN_REQUEST_CODE = 200;
+    public final static int EXIT_LOGIN_REQUEST_CODE = 300;
     private long mLastTime;
     private static final long BACK_INTERVAL_TIME = 3000;
     private TabSwitcher mTabSwitcher;

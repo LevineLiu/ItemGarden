@@ -46,4 +46,14 @@ public class Constants {
      * 物品子分类
      */
     public final static String  GET_GOODS_SUB_CATEGORY = BASE_URL + "itemKind/child";
+
+    /**
+     * 通过名称查找物品
+     * */
+    public final static String FIND_ITEM_BY_NAME = BASE_URL + "item/findItem";
+
+    /**
+     * 通过位置查找物品
+     */
+    public final static String FIND_ITEM_BY_LOCATION = BASE_URL + "item/findItemStation";
 }

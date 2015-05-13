@@ -49,7 +49,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case R.id.setting_exit_login_tv:
                 ItemGardenApplication.deleteSerializeUserInfo();
                 if(getActivity() != null){
-                    getActivity().setResult();
+                    getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
                 }
                 break;
