@@ -19,7 +19,7 @@
             android:background="@android:color/black" />
 
         <TextView
-            android:id="@+id/home_post_user_name"
+            android:id="@+id/home_post_item_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
@@ -62,12 +62,15 @@
             android:layout_marginLeft="5dp"
             android:text="￥300"/>
     </LinearLayout>
-    <GridView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/home_post_item_recyclerview"
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
-        android:horizontalSpacing="10dp"/>
+        android:horizontalSpacing="10dp"
+        />
     <TextView
+        android:id="@+id/home_post_item_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/home_location_bg"

@@ -84,6 +84,8 @@ public class GsonRequest extends Request<ServiceResult>{
                     encodedParams.append(URLEncoder.encode((String)value, paramsEncoding));
                 else if(value instanceof Long){
                     encodedParams.append((long)value);
+                }else if(value instanceof Integer){
+                    encodedParams.append((int)value);
                 }
                 encodedParams.append('&');
             }

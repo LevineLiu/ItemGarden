@@ -8,26 +8,50 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.llw.itemgarden.ItemGardenApplication;
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.base.BaseFragment;
+import com.llw.itemgarden.base.Constants;
 import com.llw.itemgarden.base.FragmentContainerActivity;
+import com.llw.itemgarden.model.Item;
+import com.llw.itemgarden.model.ServiceResult;
 import com.llw.itemgarden.view.PullToRefreshListView;
+import com.llw.itemgarden.volley.GsonRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Created by liulewen on 2015/3/17.
  */
 public class HomeFragment extends BaseFragment{
+    private final static String TAG = HomeFragment.class.getSimpleName();
     private LocationClient mLocationClient;
     private BDLocationListener mLocationListener;
+    private List<Item> items;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         initView(view);
         return  view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ItemGardenApplication.getInstance().cancelRequests(TAG);
     }
 
     private void initView(View view){
@@ -69,17 +93,42 @@ public class HomeFragment extends BaseFragment{
         view.findViewById(R.id.menu_search_img).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getActivity() != null)
+                if (getActivity() != null)
                     FragmentContainerActivity.startActivity(getActivity(), HomeMenuSearchFragment.class, null, false);
             }
         });
+        if(items == null)
+            getGoods(1);
     }
 
     /**
      * 获取物品
      */
-    private void getGoods(){
-
+    private void getGoods(int page){
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page + "");
+        GsonRequest getGoodsRequest = new GsonRequest(Constants.FIND_ITEM_BY_NAME, map,
+                new Response.Listener<ServiceResult>() {
+            @Override
+            public void onResponse(ServiceResult serviceResult) {
+                if(serviceResult.isSuccess() && serviceResult.getObject() != null) {
+                    try {
+                        String result = new JSONObject(serviceResult.getObject()).getString("rows");
+                        items = new Gson().fromJson(result,
+                                new TypeToken<List<Item>>() {
+                                }.getType());
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                toast("获取数据失败", true);
+            }
+        });
+        ItemGardenApplication.getInstance().addRequestToQueue(getGoodsRequest, TAG);
     }
 
     private class MyLocationListener implements BDLocationListener{

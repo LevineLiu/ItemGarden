@@ -56,4 +56,9 @@ public class Constants {
      * 通过位置查找物品
      */
     public final static String FIND_ITEM_BY_LOCATION = BASE_URL + "item/findItemStation";
+
+    /**
+     * 根据用户ID获取物品
+     */
+    public final static String GET_USER_INFO = BASE_URL + "user/getById";
 }

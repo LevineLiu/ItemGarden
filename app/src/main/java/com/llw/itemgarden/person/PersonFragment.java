@@ -9,19 +9,28 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.llw.itemgarden.ItemGardenApplication;
 import com.llw.itemgarden.R;
 import com.llw.itemgarden.base.BaseFragment;
+import com.llw.itemgarden.base.Constants;
 import com.llw.itemgarden.base.FragmentContainerActivity;
 import com.llw.itemgarden.base.MainActivity;
 import com.llw.itemgarden.base.StaticValueHolder;
 import com.llw.itemgarden.loginandregister.LoginFragment;
+import com.llw.itemgarden.model.ServiceResult;
 import com.llw.itemgarden.model.User;
+import com.llw.itemgarden.volley.GsonRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Created by liulewen on 2015/4/25.
  */
 public class PersonFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = PersonFragment.class.getSimpleName();
     private TextView loginTv;
     private TextView userName;
     private TextView descriptionTv;
@@ -32,6 +41,12 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.person_fragment, container, false);
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ItemGardenApplication.getInstance().cancelRequests(TAG);
     }
 
     private void initView(View view) {
@@ -48,8 +63,31 @@ public class PersonFragment extends BaseFragment implements View.OnClickListener
         }
         loginTv.setOnClickListener(this);
         view.findViewById(R.id.person_setting_layout).setOnClickListener(this);
+        getUserInfo();
     }
 
+    private void getUserInfo(){
+        User user = StaticValueHolder.getObject(ItemGardenApplication.USER_INFO);
+        if(user == null)
+            return;
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", user.getId());
+        GsonRequest getUserInfoRequest = new GsonRequest(Constants.GET_USER_INFO, map,
+                new Response.Listener<ServiceResult>() {
+                    @Override
+                    public void onResponse(ServiceResult serviceResult) {
+                        if(serviceResult.isSuccess()){
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                toast("获取数据失败，请稍候重试", true);
+            }
+        });
+        ItemGardenApplication.getInstance().addRequestToQueue(getUserInfoRequest, TAG);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -74,6 +74,41 @@ public class User extends BaseEntity {
 	 */
 	private String deliveryAddress;
 
+	/**
+	 * 买到的
+	 */
+	private String buys;
+
+	/***/
+	private String sales;
+
+	/***/
+	private String likes;
+
+	public String getBuys() {
+		return buys;
+	}
+
+	public void setBuys(String buys) {
+		this.buys = buys;
+	}
+
+	public String getSales() {
+		return sales;
+	}
+
+	public void setSales(String sales) {
+		this.sales = sales;
+	}
+
+	public String getLikes() {
+		return likes;
+	}
+
+	public void setLikes(String likes) {
+		this.likes = likes;
+	}
+
 	private String token;
 
 	public String getToken() {

@@ -71,6 +71,8 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
     }
 
     private void publishPost(Item item){
+        showProgressDialog(false);
+        setProgressDialogMessage("发布中");
         Map<String, Object> map = new HashMap<>();
         String itemString = new Gson().toJson(item);
         map.put("item", itemString);
@@ -78,8 +80,10 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
                 new Response.Listener<ServiceResult>() {
                     @Override
                     public void onResponse(ServiceResult serviceResult) {
+                        dismissProgressDialog();
                         if(serviceResult.isSuccess()){
-                            toast("发布成功", true);
+                            if(getActivity() != null)
+                                getActivity().finish();
                         }else{
                             if (serviceResult.getObject() != null)
                                 toast(serviceResult.getObject(), true);
@@ -90,6 +94,7 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                dismissProgressDialog();
                 if(getActivity() != null)
                     toast(VolleyErrorHelper.getMessage(volleyError, getActivity()), true);
             }
@@ -114,6 +119,11 @@ public class PostPriceFragment extends PostFragment implements View.OnClickListe
                     return;
                 }
                 Item item = StaticValueHolder.getObject(ItemGardenApplication.POST_ITEM);
+                if(item == null){
+                    if(getActivity() != null)
+                        getActivity().finish();
+                    return;
+                }
                 item.setNewPrice(Double.parseDouble(salePriceEt.getText().toString()));
                 if(!TextUtils.isEmpty(originalPriceEt.getText()))
                     item.setOldPrive(Double.parseDouble(originalPriceEt.getText().toString()));
